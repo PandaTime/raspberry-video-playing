@@ -145,6 +145,7 @@ function Omx(source, output, loop, initialVolume, layer, windowSize, showOsd) {
 
 	};
 
+	omxplayer.stdout = player.stdout;
 	omxplayer.play = () => { writeStdin('p'); };
 	omxplayer.pause = () => { writeStdin('p'); };
 	omxplayer.volUp = () => { writeStdin('+'); };
