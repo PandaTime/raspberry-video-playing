@@ -17,7 +17,7 @@ let ALLOWED_OUTPUTS = ['hdmi', 'local', 'both', 'alsa'];
 // ----- Functions ----- //
 
 // Creates an array of arguments to pass to omxplayer.
-function buildArgs(source, givenOutput, loop, initialVolume, layer, showOsd) {
+function buildArgs(source, givenOutput, loop, initialVolume, layer, windowSize, showOsd) {
 	let output = '';
 
 	if (givenOutput) {
@@ -43,6 +43,10 @@ function buildArgs(source, givenOutput, loop, initialVolume, layer, showOsd) {
 		args.push(`--layer ${layer}`);
 	}
 
+	if (windowSize) {
+		args.push(`-win "${windowSize}"`);
+	}
+
 	// Handle the loop argument, if provided
 	if (loop) {
 		args.push('--loop');
@@ -60,7 +64,7 @@ function buildArgs(source, givenOutput, loop, initialVolume, layer, showOsd) {
 
 // ----- Omx Class ----- //
 
-function Omx (source, output, loop, initialVolume, layer, showOsd) {
+function Omx(source, output, loop, initialVolume, layer, windowSize, showOsd) {
 
 	// ----- Local Vars ----- //
 
@@ -87,9 +91,9 @@ function Omx (source, output, loop, initialVolume, layer, showOsd) {
 	}
 
 	// Spawns the omxplayer process.
-	function spawnPlayer(src, out, loop, initialVolume, layer, showOsd) {
+	function spawnPlayer(src, out, loop, initialVolume, layer, windowSize, showOsd) {
 
-		let args = buildArgs(src, out, loop, initialVolume, layer, showOsd);
+		let args = buildArgs(src, out, loop, initialVolume, layer, windowSize, showOsd);
 		logger.debug('args for omxplayer:', args);
 		let omxProcess = spawn('omxplayer', args);
 		open = true;
@@ -119,23 +123,23 @@ function Omx (source, output, loop, initialVolume, layer, showOsd) {
 	// ----- Setup ----- //
 
 	if (source) {
-		player = spawnPlayer(source, output, loop, initialVolume, layer, showOsd);
+		player = spawnPlayer(source, output, loop, initialVolume, layer, windowSize, showOsd);
 	}
 
 	// ----- Methods ----- //
 
 	// Restarts omxplayer with a new source.
-	omxplayer.newSource = (src, out, loop, initialVolume, showOsd) => {
+	omxplayer.newSource = (src, out, loop, initialVolume, layer, windowSize, showOsd) => {
 
 		if (open) {
 
-			player.on('close', () => { player = spawnPlayer(src, out, loop, initialVolume, layer, showOsd); });
+			player.on('close', () => { player = spawnPlayer(src, out, loop, initialVolume, layer, windowSize, showOsd); });
 			player.removeListener('close', updateStatus);
 			writeStdin('q');
 
 		} else {
 
-			player = spawnPlayer(src, out, loop, initialVolume, layer, showOsd);
+			player = spawnPlayer(src, out, loop, initialVolume, layer, windowSize, showOsd);
 
 		}
 
