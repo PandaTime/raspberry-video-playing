@@ -11,6 +11,9 @@ const logger = require(`${appRoot}/utils/logger`)('omx-player');
  */
 function _listenOnEnd(omxPlayer) {
   const promise = new Promise((res, rej) => {
+    omxPlayer.stdout.on('data', (data) => {
+      console.log('stdout: ' + data.toString());
+    });
     const interval = setInterval(() => {
       logger.debug('File has reached its end:', omxPlayer.info());
       // ?!?!??!
