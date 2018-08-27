@@ -14,12 +14,16 @@ function _listenOnEnd(omxPlayer) {
     omxPlayer.stdout.on('data', (data) => {
       console.log('stdout: ' + data.toString());
     });
+    let msPassed = 0;
     const interval = setInterval(() => {
+      if (msPassed > 10000) {
+        clearInterval(interval);
+        res();
+      }
+      msPassed += 1000;
       logger.debug('File has reached its end:', omxPlayer.info());
       // ?!?!??!
-      clearInterval(interval);
-      res();
-    }, 50);
+    }, 1000);
   });
   return promise;
 }
