@@ -22,8 +22,7 @@ function updateState(newState) {
   }
 
   logger.debug('Updating state to:', newState);
-  omxController.playVideo(stateConf.videoFile.videoFilePath);
-  omxController.playSound(stateConf.videoFile.videoFilePath);
+  omxController.playVideo(stateConf.videoFile.videoFilePath, stateConf.videoFile.soundFilePath);
 
   omxController.playSound(stateConf.soundFilePath)
     .then(() => {

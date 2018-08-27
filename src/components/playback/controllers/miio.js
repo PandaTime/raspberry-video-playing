@@ -14,6 +14,7 @@ function connect() {
     logger.error('miio host not passed');
     return;
   }
+
   if (!token) {
     logger.error('miio token not passed, trying to connect without it');
   }

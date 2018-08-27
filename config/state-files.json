@@ -1,8 +1,8 @@
 {
   "DEFAULT": {
     "videoFile": {
-      "videoFilePath": "default.mp4",
-      "soundFilePath": "default.mp3"
+      "videoFilePath": "/home/pi/Videos/default.mp4",
+      "soundFilePath": "/home/pi/Videos/default.mp3"
     },
     "soundFilePath": "",
     "isPowerSocketActive": false

@@ -1,6 +1,6 @@
 // Import the module.
-const omx = require('node-omxplayer');
 const appRoot = require('app-root-path');
+const omx = require(`${appRoot}/libs/node-omxplayer`);
 const Promise = require('bluebird');
 const logger = require(`${appRoot}/utils/logger`)('omx-player');
 
@@ -9,13 +9,13 @@ const logger = require(`${appRoot}/utils/logger`)('omx-player');
  * @param {Function} cb - callback to trigger when playback has ended.
  * @return {Promise}
  */
-function _listenOnEnd(omxPlayer, cb) {
+function _listenOnEnd(omxPlayer) {
   const promise = new Promise((res, rej) => {
     const interval = setInterval(() => {
-      omxPlayer.debug('File has reached its end');
+      logger.debug('File has reached its end:', omxPlayer.info());
       // ?!?!??!
       clearInterval(interval);
-      cb();
+      res();
     }, 50);
   });
   return promise;
@@ -31,7 +31,9 @@ function _listenOnEnd(omxPlayer, cb) {
 function _startPlayer(filePath, outputChannel, initialVolume) {
   if (!filePath) {
     logger.error('No file was specified');
-    throw new Error('No file was specified');
+    return new Promise(function(res) {
+      res();
+    });
   }
   logger.debug(`_startPlayer("${filePath}"; outputChannel: "${outputChannel}"; initialVolume: "${initialVolume}")`);
   // Create an instance of the player with the source.
@@ -47,8 +49,8 @@ function _startPlayer(filePath, outputChannel, initialVolume) {
  */
 function playVideo(videoFilePath, videoSoundFilePath) {
   logger.debug('Playing video:', videoFilePath, videoSoundFilePath);
-  const video = _startPlayer(videoFilePath, 'hdmi');
-  const videoSound = _startPlayer(videoSoundFilePath, 'local');
+  const video = _startPlayer(videoFilePath, 'hdmi', undefined, undefined, 1);
+  const videoSound = _startPlayer(videoSoundFilePath, 'local', undefined, undefined, 0);
   return {
     video,
     videoSound,
@@ -62,7 +64,7 @@ function playVideo(videoFilePath, videoSoundFilePath) {
  */
 function playSound(soundFilePath) {
   logger.debug('Playing sound:', soundFilePath);
-  return _startPlayer(soundFilePath, 'local');
+  return _startPlayer(soundFilePath, 'local', undefined, undefined, 0);
 }
 
 module.exports = {
