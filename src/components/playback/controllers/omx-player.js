@@ -24,19 +24,23 @@ function _listenOnEnd(omxPlayer) {
 /**
  * @param  {String} filePath - path to file that should be played
  * @param  {String} outputChannel - type of data output
- * @param {String} initialVolume - https://www.npmjs.com/package/node-omxplayer#omx-source--output--loop--initialvolume-
  * @param {Number} layer
+ * @param {String} initialVolume - https://www.npmjs.com/package/node-omxplayer#omx-source--output--loop--initialvolume-
  * @return {Promise} promise that will trigger on end.
  * @private
  */
-function _startPlayer(filePath, outputChannel, initialVolume, layer) {
+function _startPlayer(filePath, outputChannel, layer, initialVolume) {
   if (!filePath) {
     logger.error('No file was specified');
     return new Promise(function(res) {
       res();
     });
   }
-  logger.debug(`_startPlayer("${filePath}"; outputChannel: "${outputChannel}"; initialVolume: "${initialVolume}")`);
+  logger.debug(`
+_startPlayer("${filePath}";
+outputChannel: "${outputChannel}"; 
+initialVolume: "${initialVolume}");
+layer: ${layer};`);
   // Create an instance of the player with the source.
   const omxPlayer = omx(filePath, outputChannel, undefined, initialVolume, layer);
   return _listenOnEnd(omxPlayer);
@@ -51,7 +55,7 @@ function _startPlayer(filePath, outputChannel, initialVolume, layer) {
 function playVideo(videoFilePath, videoSoundFilePath) {
   logger.debug('Playing video:', videoFilePath, videoSoundFilePath);
   const video = _startPlayer(videoFilePath, 'hdmi', 1);
-  const videoSound = _startPlayer(videoSoundFilePath, 'local', 0, 0);
+  const videoSound = _startPlayer(videoSoundFilePath, 'local', 0);
   return {
     video,
     videoSound,
@@ -65,7 +69,7 @@ function playVideo(videoFilePath, videoSoundFilePath) {
  */
 function playSound(soundFilePath) {
   logger.debug('Playing sound:', soundFilePath);
-  return _startPlayer(soundFilePath, 'local', 0, 0);
+  return _startPlayer(soundFilePath, 'local', 0);
 }
 
 module.exports = {

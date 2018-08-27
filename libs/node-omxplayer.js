@@ -1,6 +1,8 @@
 'use strict';
 /* eslint-disable */
 // ----- Requires ----- //
+const appRoot = require('app-root-path');
+const logger = require(`${appRoot}/utils/logger`)('omx-player');
 
 let spawn = require('child_process').spawn;
 let EventEmitter = require('events');
@@ -88,7 +90,7 @@ function Omx (source, output, loop, initialVolume, layer, showOsd) {
 	function spawnPlayer(src, out, loop, initialVolume, layer, showOsd) {
 
 		let args = buildArgs(src, out, loop, initialVolume, layer, showOsd);
-		console.log('args for omxplayer:', args);
+		logger.debug('args for omxplayer:', args);
 		let omxProcess = spawn('omxplayer', args);
 		open = true;
 
