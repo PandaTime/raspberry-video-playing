@@ -16,13 +16,12 @@ function _listenOnEnd(omxPlayer) {
     });
     let msPassed = 0;
     const interval = setInterval(() => {
-      if (msPassed > 10000) {
+      if (msPassed > 25000) {
         clearInterval(interval);
         res();
       }
       msPassed += 1000;
-      logger.debug('File has reached its end:', omxPlayer.info());
-      // ?!?!??!
+      omxPlayer.info();
     }, 1000);
   });
   return promise;

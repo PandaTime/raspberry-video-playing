@@ -40,11 +40,11 @@ function buildArgs(source, givenOutput, loop, initialVolume, layer, windowSize, 
 	let args = [source, '-o', output, '--blank', osd ? '' : '--no-osd', '--refresh'];
 
 	if (Number.isInteger(layer)) {
-		args.concat(['--layer', layer]);
+		args = args.concat(['--layer', layer]);
 	}
 
 	if (windowSize) {
-		args.concat(['--win',  windowSize]);
+		args = args.concat(['--win',  windowSize]);
 	}
 
 	// Handle the loop argument, if provided
