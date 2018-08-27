@@ -37,7 +37,7 @@ function buildArgs(source, givenOutput, loop, initialVolume, layer, windowSize, 
 		osd = showOsd;
 	}
 
-	let args = [source, '-o', output, '--blank', osd ? '' : '--no-osd'];
+	let args = [source, '-o', output, '--blank', osd ? '' : '--no-osd', '--refresh'];
 
 	if (Number.isInteger(layer)) {
 		args.concat(['--layer', layer]);
