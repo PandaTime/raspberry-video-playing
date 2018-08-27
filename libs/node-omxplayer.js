@@ -58,7 +58,7 @@ function buildArgs(source, givenOutput, loop, initialVolume, layer, showOsd) {
 
 // ----- Omx Class ----- //
 
-function Omx (source, output, loop, initialVolume, showOsd) {
+function Omx (source, output, loop, initialVolume, layer, showOsd) {
 
 	// ----- Local Vars ----- //
 
