@@ -99,6 +99,15 @@ function Omx(source, output, loop, initialVolume, layer, windowSize, showOsd) {
 		open = true;
 
 		omxProcess.stdin.setEncoding('utf-8');
+		
+		omxProcess.stderr.on('data', (err) => {
+			logger.error('Errors in omxplayer stderr:', err);
+		});
+
+		omxProcess.stdout.on('error', (err) => {
+			logger.error('Errors in omxplayer stdout:', err)
+		});
+
 		omxProcess.on('close', updateStatus);
 
 		omxProcess.on('error', () => {
