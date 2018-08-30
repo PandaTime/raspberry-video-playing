@@ -20,7 +20,10 @@ function initializeVideoAndSoundFiles() {
   // In fact we need only this cb listener
   const sound = omxController.openSoundFile(VIDEO.VIDEO_FILE);
   sound.setUpdatesListener(function(err, data) {
-    if (err) { logger.error('Error on update listener:', err); return;}
+    if (err) {
+      logger.error('Error on update listener:', err);
+      return;
+    }
     console.log('New data:', data);
   });
   logger.info('Initialized Sound:', sound.id);
