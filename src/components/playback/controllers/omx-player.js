@@ -91,7 +91,7 @@ function openVideoFile(filePath) {
  */
 function openSoundFile(filePath) {
   const player = new Player();
-  player.startPlayer({
+  player.startPlayer(filePath, {
     filePath,
     audioOutput: 'local',
     layer: 0,
