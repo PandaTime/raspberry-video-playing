@@ -77,7 +77,6 @@ class Player {
 function openVideoFile(filePath) {
   const player = new Player();
   player.startPlayer(filePath, {
-    filePath,
     audioOutput: 'hdmi',
     layer: 1,
   });
@@ -92,7 +91,6 @@ function openVideoFile(filePath) {
 function openSoundFile(filePath) {
   const player = new Player();
   player.startPlayer(filePath, {
-    filePath,
     audioOutput: 'local',
     layer: 0,
   });
