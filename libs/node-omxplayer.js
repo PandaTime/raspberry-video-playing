@@ -37,14 +37,14 @@ function buildArgs(source, givenOutput, loop, initialVolume, layer, windowSize, 
 		osd = showOsd;
 	}
 
-	let args = [source, '-o', output, '--blank', osd ? '' : '--no-osd', '--refresh'];
+	let args = [source, '-s', '-o', output, '--blank', osd ? '' : '--no-osd', '--refresh', '-s'];
 
 	if (Number.isInteger(layer)) {
 		args = args.concat(['--layer', layer]);
 	}
 
 	if (windowSize) {
-		args = args.concat(['--win',  windowSize]);
+		args = args.concat(['--win',  `"${windowSize}"`]);
 	}
 
 	// Handle the loop argument, if provided

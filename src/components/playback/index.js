@@ -2,9 +2,28 @@ const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('playback/index');
 const omxController = require('./controllers/omx-player');
 const miioController = require('./controllers/miio');
-const states = require(`${appRoot}/config/state-files.json`);
+const { VIDEO } = require(`${appRoot}/config/state-files.json`);
 
 let isSoundPlayed = false;
+initializeVideoAndSoundFiles();
+
+/**
+ * Opening all video and sound files
+ */
+function initializeVideoAndSoundFiles() {
+
+  // const video = omxController.openVideoFile(VIDEO.VIDEO_FILE);
+  // logger.info('Initialized Video:', video.id);
+
+  // const videoSound = omxController.openSoundFile('filePath');
+  // logger.info('Initialized Video Sound:', videoSound.id);
+  // In fact we need only this cb listener
+  const sound = omxController.openSoundFile(VIDEO.VIDEO_FILE);
+  sound.setUpdatesListener(function(data) {
+    console.log('New data:', data);
+  });
+  logger.info('Initialized Sound:', sound.id);
+}
 
 /**
  * @param  {String} newState
@@ -27,17 +46,18 @@ function updateState(newState) {
   omxController.playSound(stateConf.soundFilePath)
     .then(() => {
       logger.debug('Sound has finished playing for state:', newState);
-      updateSoundPlayed(false);
+      updateSoundStatus(false);
     });
 
   miioController.updatePowerSocket(stateConf.isPowerSocketActive);
 
-  updateSoundPlayed(true);
+  updateSoundStatus(true);
 }
+
 /**
  * @param  {Boolean} isPlayed
  */
-function updateSoundPlayed(isPlayed) {
+function updateSoundStatus(isPlayed) {
   logger.debug('Updating sound playe state:', isPlayed);
   isSoundPlayed = isPlayed;
 }

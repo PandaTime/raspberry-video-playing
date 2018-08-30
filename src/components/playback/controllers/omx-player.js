@@ -1,86 +1,105 @@
-// Import the module.
 const appRoot = require('app-root-path');
-const omx = require(`${appRoot}/libs/node-omxplayer`);
-const Promise = require('bluebird');
 const logger = require(`${appRoot}/utils/logger`)('omx-player');
+const omxp = require('omxplayer-controll');
 
-/** Listening for current omxplayer status
- * @param  {OMX<Player>} omxPlayer
- * @param {Function} cb - callback to trigger when playback has ended.
- * @return {Promise}
- */
-function _listenOnEnd(omxPlayer) {
-  const promise = new Promise((res, rej) => {
-    omxPlayer.stdout.on('data', (data) => {
-      console.log('stdout: ' + data.toString());
-    });
-    let msPassed = 0;
-    const interval = setInterval(() => {
-      if (msPassed > 25000) {
-        clearInterval(interval);
-        res();
-      }
-      msPassed += 1000;
-      omxPlayer.info();
-    }, 1000);
-  });
-  return promise;
-}
-
-/**
- * @param  {String} filePath - path to file that should be played
- * @param  {String} outputChannel - type of data output
- * @param {Number} layer
- * @param {String} windowSize
- * @param {String} initialVolume - https://www.npmjs.com/package/node-omxplayer#omx-source--output--loop--initialvolume-
- * @return {Promise} promise that will trigger on end.
- * @private
- */
-function _startPlayer(filePath, outputChannel, layer, windowSize, initialVolume) {
-  if (!filePath) {
-    logger.error('No file was specified');
-    return new Promise(function(res) {
-      res();
-    });
+/** */
+class Player {
+  /** */
+  constructor() {
+    this.id = (new Date()).getTime();
+    logger.debug('initializing');
+    this.isPlaying = true;
   }
-  logger.debug(`
-_startPlayer("${filePath}";
-outputChannel: "${outputChannel}"; 
-initialVolume: "${initialVolume}");
-windowSize: "${windowSize}";
-layer: ${layer};`);
-  // Create an instance of the player with the source.
-  const omxPlayer = omx(filePath, outputChannel, undefined, initialVolume, layer, windowSize);
-  return _listenOnEnd(omxPlayer);
+  /**
+   * @param {String} filePath
+   * @param {Object} config - see https://github.com/winstonwp/omxplayer-controll#usage
+   */
+  startPlayer(filePath, config) {
+    logger.debug('Passed configuration', JSON.stringify(config));
+    const defaultOptions = {
+      nativeLoop: true,
+    };
+    if (config.layer) {
+      defaultOptions.otherArgs = ['--layer', config.layer];
+    }
+
+    const configuration = Object.assign({}, defaultOptions, config);
+    logger.debug('Path to file:', configuration);
+    logger.debug('Start Player config:', JSON.stringify(configuration));
+
+    this.omxPlayer = omxp.open(config);
+  }
+  /**
+   * @param {Function} cb
+   */
+  setUpdatesListener(cb) {
+    logger.debug('listenForUpdated');
+    setInterval(() => {
+      omxp.getPosition(cb);
+    }, 1000);
+  }
+  /** */
+  unpausePlayer() {
+    logger.debug('Unpausing player');
+    if (this.isPlaying) {
+      logger.debug('Player is already playing');
+      return;
+    }
+    this.omxPlayer.play();
+  }
+  /** */
+  pausePlayer() {
+    logger.debug('Pausing player');
+    if (!this.isPlaying) {
+      logger.debug('Player is already paused');
+      return;
+    }
+    this.omxPlayer.pause();
+  }
+  /**
+   * Setting play time of the file
+   * @param {Number} playTime - time in seconds
+   */
+  setPlayTime(playTime) {
+    if (isNaN(playTime)) {
+      logger.error(`${this.id} setPlayTime() not a number: ${playTime}`);
+      return;
+    }
+    logger.debug(`Setting ${this.id} player's play time to: ${playTime * 1000}`);
+  }
 }
 
 /**
- * Starts video play
- * @param {String} videoFilePath
- * @param {String} videoSoundFilePath
- * @return {{video, videoSound}} promises - will resolve on player end
+ * Opening sound file in loop and stopping it immediately
+ * @param {String} filePath
+ * @return {OmxPlayer}
  */
-function playVideo(videoFilePath, videoSoundFilePath) {
-  logger.debug('Playing video:', videoFilePath, videoSoundFilePath);
-  const video = _startPlayer(videoFilePath, 'hdmi', 1);
-  const videoSound = _startPlayer(videoSoundFilePath, 'local', 0, '0 0 0 0');
-  return {
-    video,
-    videoSound,
-  };
+function openVideoFile(filePath) {
+  const player = new Player();
+  player.startPlayer(filePath, {
+    filePath,
+    audioOutput: 'hdmi',
+    layer: 1,
+  });
+  return player;
 }
 
 /**
- * Starts video play
- * @param {String} soundFilePath
- * @return {Promise} promise - will resolve on player end
+ * Opening sound file in loop and stopping it immediately
+ * @param  {String} filePath
+ * @return {OmxPlayer}
  */
-function playSound(soundFilePath) {
-  logger.debug('Playing sound:', soundFilePath);
-  return _startPlayer(soundFilePath, 'local', 0, '0 0 0 0');
+function openSoundFile(filePath) {
+  const player = new Player();
+  player.startPlayer({
+    filePath,
+    audioOutput: 'local',
+    layer: 0,
+  });
+  return player;
 }
 
 module.exports = {
-  playVideo,
-  playSound,
+  openVideoFile,
+  openSoundFile,
 };

@@ -1,50 +1,7 @@
 {
-  "DEFAULT": {
-    "videoFile": {
-      "videoFilePath": "/home/pi/Videos/default.mp4",
-      "soundFilePath": "/home/pi/Videos/default.mp3"
-    },
-    "soundFilePath": "",
-    "isPowerSocketActive": false
-  },
-  "STATE_1": {
-    "videoFile": {
-      "videoFilePath": "state1.mp4",
-      "soundFilePath": "state1.mp3"
-    },
-    "soundFilePath": "voice1.mp3",
-    "isPowerSocketActive": false
-  },
-  "STATE_2": {
-    "videoFile": {
-      "videoFilePath": "state2.mp4",
-      "soundFilePath": "state2.mp3"
-    },
-    "soundFilePath": "voice2.mp3",
-    "isPowerSocketActive": false
-  },
-  "STATE_3": {
-    "videoFile": {
-      "videoFilePath": "state3.mp4",
-      "soundFilePath": "state3.mp3"
-    },
-    "soundFilePath": "voice3.mp3",
-    "isPowerSocketActive": false
-  },
-  "STATE_4": {
-    "videoFile": {
-      "videoFilePath": "state4.mp4",
-      "soundFilePath": "state4.mp3"
-    },
-    "soundFilePath": "voice4.mp3",
-    "isPowerSocketActive": false
-  },
-  "STATE_5": {
-    "videoFile": {
-      "videoFilePath": "state5.mp4",
-      "soundFilePath": "state5.mp3"
-    },
-    "soundFilePath": "voice5.mp3",
-    "isPowerSocketActive": true
+  "VIDEO": {
+    "VIDEO_FILE": "/home/pi/Videos/default.mp4",
+    "VIDEO_SOUND_FILE": "/home/pi/Videos/default.mp3"
   }
-}
+} 
+ 

@@ -1,2 +1,2 @@
 const playback = require('./index.js');
-playback.updateState('DEFAULT');
+// playback.updateState('DEFAULT');
