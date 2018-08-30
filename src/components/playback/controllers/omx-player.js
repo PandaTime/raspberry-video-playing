@@ -24,10 +24,10 @@ class Player {
     }
 
     const configuration = Object.assign({}, defaultOptions, config);
-    logger.debug('Path to file:', configuration);
+    logger.debug('Path to file:', filePath);
     logger.debug('Start Player config:', JSON.stringify(configuration));
 
-    this.omxPlayer = omxp.open(config);
+    this.omxPlayer = omxp.open(filePath, config);
   }
   /**
    * @param {Function} cb
