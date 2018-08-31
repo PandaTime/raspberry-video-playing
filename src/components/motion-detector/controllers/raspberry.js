@@ -9,7 +9,7 @@ const { ACCELEROMETER } = require(`${appRoot}/config/configuration.json`);
  */
 function listenAccelerometers() {
   const accelerometerPort = ACCELEROMETER.PORT;
-  if (!accelerometerPort) {
+  if (isNaN(accelerometerPort)) {
     logger.error('No accelerometer port has been passed.');
     throw new Error('No accelerometer port has been passed.');
   }
