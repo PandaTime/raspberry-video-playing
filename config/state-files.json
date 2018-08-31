@@ -24,7 +24,8 @@
       },
       "SOUND": {
         "SHOUND_PLAY": false,
-        "SOUND_START_TIME": 1500
+        "SOUND_START_TIME": 0,
+        "SOUND_END_TIME": 1500
       },
       "WEB_SOCKET": {
         "SHOULD_WORK": false

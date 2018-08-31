@@ -6,28 +6,48 @@ const { VIDEO, STATES, DEFAULT_STATE } = require(`${appRoot}/config/state-files.
 
 let isStatusChangeable = true;
 let currentState = DEFAULT_STATE;
+let video;
+let videoSound;
+let sound;
 
+init();
 
-// const video = omxController.openVideoFile(VIDEO.VIDEO_FILE);
-// logger.info('Initialized Video:', video.id);
+/** */
+function init() {
+  // const video = omxController.openVideoFile(VIDEO.VIDEO_FILE);
+  // logger.info('Initialized Video:', video.id);
 
-// const videoSound = omxController.openSoundFile('filePath');
-// logger.info('Initialized Video Sound:', videoSound.id);
+  // const videoSound = omxController.openSoundFile('filePath');
+  // logger.info('Initialized Video Sound:', videoSound.id);
 
-// In fact we need only this cb listener
-const sound = omxController.openSoundFile(VIDEO.VIDEO_FILE);
-sound.setUpdatesListener(function(err, data) {
-  if (err) {
-    logger.error('Error on update listener:', err);
-    return;
+  // In fact we need only this cb listener
+  sound = omxController.openSoundFile(VIDEO.VIDEO_FILE);
+  sound.setUpdatesListener((err, data) => {
+    if (err) {
+      logger.error('Error on update listener:', err);
+      return;
+    }
+    console.log('New data:', typeof data, data);
+    const curTime = parseInt(data);
+    if (!isStatusChangeable && curTime > STATES[currentState].SOUND.SOUND_END_TIME) {
+      updateStatus(true);
+      updateState(DEFAULT_STATE);
+    }
+  });
+  logger.info('Initialized Sound:', sound.id);
+}
+
+/** */
+function updateOmxPlayer() {
+  const currentStateConfig = STATES[currentState];
+
+  if (currentStateConfig) {
+    sound.setPlayStatus(currentStateConfig.SOUND.SHOUND_PLAY);
+    if (currentStateConfig.SOUND.SHOUND_PLAY) {
+      sound.setPlayTime(currentStateConfig.SOUND.SOUND_START_TIME);
+    }
   }
-  console.log('New data:', typeof data, data);
-  const curTime = parseInt(data);
-  if (!isStatusChangeable && curTime > STATES[currentState].SOUND.SOUND_START_TIME) {
-    updateState(DEFAULT_STATE);
-  }
-});
-logger.info('Initialized Sound:', sound.id);
+}
 
 /**
  * @param  {String} newState
@@ -47,8 +67,12 @@ function updateState(newState) {
 
   logger.debug('Updating state to:', newState);
   currentState = newState;
-  miioController.updatePowerSocket(stateConf.isPowerSocketActive);
+
   updateStatus(currentState === DEFAULT_STATE);
+
+  updateOmxPlayer();
+
+  miioController.updatePowerSocket(stateConf.isPowerSocketActive);
 }
 
 /**

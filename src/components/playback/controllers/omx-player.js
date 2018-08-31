@@ -36,34 +36,39 @@ class Player {
       omxp.getPosition(cb);
     }, 1000);
   }
-  /** */
-  unpausePlayer() {
-    logger.debug('Unpausing player');
-    if (this.isPlaying) {
-      logger.debug('Player is already playing');
+
+  /**
+   * @param {Boolean} shouldPlay
+   */
+  setPlayStatus(shouldPlay) {
+    if (this.isPlaying === shouldPlay) {
+      logger.debug('Player is already in the same status:', shouldPlay);
       return;
     }
-    this.omxPlayer.play();
-  }
-  /** */
-  pausePlayer() {
-    logger.debug('Pausing player');
-    if (!this.isPlaying) {
-      logger.debug('Player is already paused');
-      return;
+    logger.debug('Updating player status to:', shouldPlay);
+    this.isPlaying = shouldPlay;
+    if (shouldPlay) {
+      this.omxPlayer.play();
+    } else {
+      this.omxPlayer.pause();
     }
-    this.omxPlayer.pause();
   }
+
   /**
    * Setting play time of the file
-   * @param {Number} playTime - time in seconds
+   * @param {Number} playTime - time in microseconds
    */
   setPlayTime(playTime) {
     if (isNaN(playTime)) {
       logger.error(`${this.id} setPlayTime() not a number: ${playTime}`);
       return;
     }
-    logger.debug(`Setting ${this.id} player's play time to: ${playTime * 1000}`);
+    logger.debug(`Setting ${this.id} player's play time to: ${playTime}`);
+    omxp.setPosition(playTime, (err) => {
+      if (err) {
+        logger.error(`Wasnt able to setPosition(${playTime}) for: ${this.id}`);
+      }
+    });
   }
 }
 
