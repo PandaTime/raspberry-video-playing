@@ -45,13 +45,9 @@ class Player {
       logger.debug('Player is already in the same status:', shouldPlay);
       return;
     }
-    logger.debug('Updating player status to:', shouldPlay);
+    logger.debug('Updating "isPlayed" status to:', shouldPlay);
     this.isPlaying = shouldPlay;
-    if (shouldPlay) {
-      this.omxPlayer.play();
-    } else {
-      this.omxPlayer.pause();
-    }
+    omxp.playPause();
   }
 
   /**
