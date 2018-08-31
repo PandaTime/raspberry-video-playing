@@ -1,2 +1,5 @@
 const playback = require('./index.js');
-// playback.updateState('DEFAULT');
+
+setTimeout(() => {
+  playback.updateState('STATE_1');
+}, 3000);

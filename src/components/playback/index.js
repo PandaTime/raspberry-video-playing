@@ -2,68 +2,61 @@ const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('playback/index');
 const omxController = require('./controllers/omx-player');
 const miioController = require('./controllers/miio');
-const { VIDEO } = require(`${appRoot}/config/state-files.json`);
+const { VIDEO, STATES, DEFAULT_STATE } = require(`${appRoot}/config/state-files.json`);
 
-let isSoundPlayed = false;
-initializeVideoAndSoundFiles();
+let isStatusChangeable = true;
+let currentState = DEFAULT_STATE;
 
-/**
- * Opening all video and sound files
- */
-function initializeVideoAndSoundFiles() {
 
-  // const video = omxController.openVideoFile(VIDEO.VIDEO_FILE);
-  // logger.info('Initialized Video:', video.id);
+// const video = omxController.openVideoFile(VIDEO.VIDEO_FILE);
+// logger.info('Initialized Video:', video.id);
 
-  // const videoSound = omxController.openSoundFile('filePath');
-  // logger.info('Initialized Video Sound:', videoSound.id);
-  // In fact we need only this cb listener
-  const sound = omxController.openSoundFile(VIDEO.VIDEO_FILE);
-  sound.setUpdatesListener(function(err, data) {
-    if (err) {
-      logger.error('Error on update listener:', err);
-      return;
-    }
-    console.log('New data:', data);
-  });
-  logger.info('Initialized Sound:', sound.id);
-}
+// const videoSound = omxController.openSoundFile('filePath');
+// logger.info('Initialized Video Sound:', videoSound.id);
+
+// In fact we need only this cb listener
+const sound = omxController.openSoundFile(VIDEO.VIDEO_FILE);
+sound.setUpdatesListener(function(err, data) {
+  if (err) {
+    logger.error('Error on update listener:', err);
+    return;
+  }
+  console.log('New data:', typeof data, data);
+  const curTime = parseInt(data);
+  if (!isStatusChangeable && curTime > STATES[currentState]) {
+    updateState(DEFAULT_STATE);
+  }
+});
+logger.info('Initialized Sound:', sound.id);
 
 /**
  * @param  {String} newState
  */
 function updateState(newState) {
-  const stateConf = states[newState];
+  logger.debug('updateState()', newState);
+  const stateConf = STATES[newState];
   if (!stateConf) {
     logger.error('State is not supported');
     return;
   }
 
-  if (isSoundPlayed) {
-    logger.info('Could not update state - previous state hasnt finished');
+  if (!isStatusChangeable) {
+    logger.debug('Could not update state - previous state hasnt finished');
     return;
   }
 
   logger.debug('Updating state to:', newState);
-  omxController.playVideo(stateConf.videoFile.videoFilePath, stateConf.videoFile.soundFilePath);
-
-  omxController.playSound(stateConf.soundFilePath)
-    .then(() => {
-      logger.debug('Sound has finished playing for state:', newState);
-      updateSoundStatus(false);
-    });
-
+  currentState = newState;
   miioController.updatePowerSocket(stateConf.isPowerSocketActive);
-
-  updateSoundStatus(true);
+  updateStatus(currentState === DEFAULT_STATE);
 }
 
 /**
- * @param  {Boolean} isPlayed
+ * @param  {Boolean} changeAble
  */
-function updateSoundStatus(isPlayed) {
-  logger.debug('Updating sound playe state:', isPlayed);
-  isSoundPlayed = isPlayed;
+function updateStatus(changeAble) {
+  logger.debug('Updating sound playe state:', changeAble);
+  isStatusChangeable = changeAble;
 }
 
 

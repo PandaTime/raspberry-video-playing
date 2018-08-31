@@ -12,22 +12,20 @@ class Player {
   }
   /**
    * @param {String} filePath
-   * @param {Object} config - see https://github.com/winstonwp/omxplayer-controll#usage
+   * @param {Object} options - see https://github.com/winstonwp/omxplayer-controll#usage
    */
-  startPlayer(filePath, config) {
-    logger.debug('Passed configuration', JSON.stringify(config));
+  startPlayer(filePath, options) {
+    logger.debug('Passed options', JSON.stringify(options));
     const defaultOptions = {
       nativeLoop: true,
     };
-    if (config.layer) {
-      defaultOptions.otherArgs = ['--layer', config.layer];
-    }
 
-    const configuration = Object.assign({}, defaultOptions, config);
+    const settings = Object.assign({}, defaultOptions, options);
+
     logger.debug('Path to file:', filePath);
-    logger.debug('Start Player config:', JSON.stringify(configuration));
+    logger.debug('Start Player with such settings:', JSON.stringify(settings));
 
-    this.omxPlayer = omxp.open(filePath, config);
+    this.omxPlayer = omxp.open(filePath, settings);
   }
   /**
    * @param {Function} cb
@@ -78,7 +76,9 @@ function openVideoFile(filePath) {
   const player = new Player();
   player.startPlayer(filePath, {
     audioOutput: 'hdmi',
-    layer: 1,
+    otherArgs: {
+      layer: 1,
+    },
   });
   return player;
 }
@@ -92,7 +92,9 @@ function openSoundFile(filePath) {
   const player = new Player();
   player.startPlayer(filePath, {
     audioOutput: 'local',
-    layer: 0,
+    otherArgs: {
+      layer: 1,
+    },
   });
   return player;
 }

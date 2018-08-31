@@ -1,7 +1,35 @@
 {
+  "DEFAULT_STATE": "DEFAULT",
   "VIDEO": {
     "VIDEO_FILE": "/home/pi/Videos/default.mp4",
     "VIDEO_SOUND_FILE": "/home/pi/Videos/default.mp3"
+  },
+  "STATES": {
+    "DEFAULT": {
+      "VIDEO": {
+        "VIDEO_FILE_START_TIME": 0,
+        "AUDIO_FILE_START_TIME": 0
+      },
+      "SOUND": {
+        "SHOUND_PLAY": false
+      },
+      "WEB_SOCKET": {
+        "SHOULD_WORK": false
+      }
+    },
+    "STATE_1": {
+      "VIDEO": {
+        "VIDEO_FILE_START_TIME": 1500,
+        "AUDIO_FILE_START_TIME": 0
+      },
+      "SOUND": {
+        "SHOUND_PLAY": false,
+        "SOUND_START_TIME": 1500
+      },
+      "WEB_SOCKET": {
+        "SHOULD_WORK": false
+      }
+    }
   }
 } 
  
