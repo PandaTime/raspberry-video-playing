@@ -23,7 +23,7 @@ sound.setUpdatesListener(function(err, data) {
   }
   console.log('New data:', typeof data, data);
   const curTime = parseInt(data);
-  if (!isStatusChangeable && curTime > STATES[currentState]) {
+  if (!isStatusChangeable && curTime > STATES[currentState].SOUND.SOUND_START_TIME) {
     updateState(DEFAULT_STATE);
   }
 });
@@ -52,11 +52,11 @@ function updateState(newState) {
 }
 
 /**
- * @param  {Boolean} changeAble
+ * @param  {Boolean} changeable
  */
-function updateStatus(changeAble) {
-  logger.debug('Updating sound playe state:', changeAble);
-  isStatusChangeable = changeAble;
+function updateStatus(changeable) {
+  logger.debug('Updating "isChangeable" status to :', changeable);
+  isStatusChangeable = changeable;
 }
 
 
