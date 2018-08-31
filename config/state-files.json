@@ -11,7 +11,8 @@
         "AUDIO_FILE_START_TIME": 0
       },
       "SOUND": {
-        "SHOUND_PLAY": false
+        "SHOUND_PLAY": true,
+        "SOUND_START_TIME": 0
       },
       "WEB_SOCKET": {
         "SHOULD_WORK": false

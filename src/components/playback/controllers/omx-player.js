@@ -1,6 +1,6 @@
 const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('omx-player');
-const omxp = require('omxplayer-controll');
+const Omx = require('omx-layers');
 
 /** */
 class Player {
@@ -9,6 +9,7 @@ class Player {
     this.id = (new Date()).getTime();
     logger.debug('initializing');
     this.isPlaying = true;
+    this.cb = function() {};
   }
   /**
    * @param {String} filePath
@@ -25,16 +26,19 @@ class Player {
     logger.debug('Path to file:', filePath);
     logger.debug('Start Player with such settings:', JSON.stringify(settings));
 
-    this.omxPlayer = omxp.open(filePath, settings);
+    this.omxPlayer = new Omx(settings);
+
+    this.omxPlayer.onProgress((info) => {
+      // will output something like: layer is at 2500 / 10000; currently playing
+      logger.debug(`layer is at ${info.position} / ${info.duration}; currently ${info.status}`);
+    });
   }
   /**
    * @param {Function} cb
    */
   setUpdatesListener(cb) {
     logger.debug('listenForUpdated');
-    setInterval(() => {
-      omxp.getPosition(cb);
-    }, 1000);
+    this.cb = cb;
   }
 
   /**
@@ -47,7 +51,11 @@ class Player {
     }
     logger.debug('Updating "isPlayed" status to:', shouldPlay);
     this.isPlaying = shouldPlay;
-    omxp.playPause();
+    if (shouldPlay) {
+      this.omxPlayer.resume();
+    } else {
+      this.omxPlayer.pause();
+    }
   }
 
   /**
@@ -60,11 +68,7 @@ class Player {
       return;
     }
     logger.debug(`Setting ${this.id} player's play time to: ${playTime}`);
-    omxp.setPosition(playTime, (err) => {
-      if (err) {
-        logger.error(`Wasnt able to setPosition(${playTime}) for: ${this.id}`);
-      }
-    });
+    this.omxPlayer.seekAbsolute(playTime);
   }
 }
 
@@ -77,9 +81,7 @@ function openVideoFile(filePath) {
   const player = new Player();
   player.startPlayer(filePath, {
     audioOutput: 'hdmi',
-    otherArgs: {
-      layer: 1,
-    },
+    layer: 1,
   });
   return player;
 }
@@ -93,9 +95,7 @@ function openSoundFile(filePath) {
   const player = new Player();
   player.startPlayer(filePath, {
     audioOutput: 'local',
-    otherArgs: {
-      layer: 1,
-    },
+    layer: 0,
   });
   return player;
 }
