@@ -22,14 +22,9 @@ function init() {
 
   // In fact we need only this cb listener
   sound = omxController.openSoundFile(VIDEO.VIDEO_FILE);
-  sound.setUpdatesListener((err, data) => {
-    if (err) {
-      logger.error('Error on update listener:', err);
-      return;
-    }
-    console.log('New data:', typeof data, data);
-    const curTime = parseInt(data);
-    if (!isStatusChangeable && curTime > STATES[currentState].SOUND.SOUND_END_TIME) {
+  sound.setUpdatesListener((data) => {
+    logger.debug(`layer is at ${data.position} / ${data.duration}; currently ${data.status}`);
+    if (!isStatusChangeable && data.position > STATES[currentState].SOUND.SOUND_END_TIME) {
       updateStatus(true);
       updateState(DEFAULT_STATE);
     }

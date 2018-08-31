@@ -18,7 +18,7 @@ class Player {
   startPlayer(filePath, options) {
     logger.debug('Passed options', JSON.stringify(options));
     const defaultOptions = {
-      nativeLoop: true,
+      loop: true,
     };
 
     const settings = Object.assign({}, defaultOptions, options);
@@ -27,10 +27,11 @@ class Player {
     logger.debug('Start Player with such settings:', JSON.stringify(settings));
 
     this.omxPlayer = new Omx(settings);
+    this.omxPlayer.open(filePath);
 
     this.omxPlayer.onProgress((info) => {
       // will output something like: layer is at 2500 / 10000; currently playing
-      logger.debug(`layer is at ${info.position} / ${info.duration}; currently ${info.status}`);
+      this.cb(info);
     });
   }
   /**
@@ -68,7 +69,7 @@ class Player {
       return;
     }
     logger.debug(`Setting ${this.id} player's play time to: ${playTime}`);
-    this.omxPlayer.seekAbsolute(playTime);
+    this.omxPlayer.setAbsolute(playTime);
   }
 }
 
