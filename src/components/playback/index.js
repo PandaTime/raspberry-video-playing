@@ -2,7 +2,7 @@ const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('playback/index');
 const omxController = require('./controllers/omx-player');
 const miioController = require('./controllers/miio');
-const { VIDEO, STATES, DEFAULT_STATE } = require(`${appRoot}/config/state-files.json`);
+const { FILE_PATHS, STATES, DEFAULT_STATE } = require(`${appRoot}/config/configuration.json`);
 
 let isStatusChangeable = true;
 let currentState = DEFAULT_STATE;
@@ -14,14 +14,14 @@ init();
 
 /** */
 function init() {
-  // const video = omxController.openVideoFile(VIDEO.VIDEO_FILE);
-  // logger.info('Initialized Video:', video.id);
+  video = omxController.openVideoFile(FILE_PATHS.VIDEO_FILE);
+  logger.info('Initialized Video:', video.id);
 
-  // const videoSound = omxController.openSoundFile('filePath');
-  // logger.info('Initialized Video Sound:', videoSound.id);
+  videoSound = omxController.openSoundFile(FILE_PATHS.VIDEO_SOUND_FILE);
+  logger.info('Initialized Video Sound:', videoSound.id);
 
   // In fact we need only this cb listener
-  sound = omxController.openSoundFile(VIDEO.VIDEO_FILE);
+  sound = omxController.openSoundFile(FILE_PATHS.SOUND_FILE);
   sound.setUpdatesListener((data) => {
     logger.debug(`layer is at ${data.position} / ${data.duration}; currently ${data.status}`);
     if (!isStatusChangeable && data.position > STATES[currentState].SOUND.SOUND_END_TIME) {

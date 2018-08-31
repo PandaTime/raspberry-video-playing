@@ -21,7 +21,6 @@
   "dependencies": {
     "app-root-path": "^2.1.0",
     "bluebird": "^3.5.1",
-    "dotenv": "^6.0.0",
     "miio": "^0.15.6",
     "omx-layers": "^1.1.0",
     "onoff": "^3.2.1",

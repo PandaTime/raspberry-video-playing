@@ -1,0 +1,50 @@
+{
+  "DEFAULT_STATE": "DEFAULT",
+  "MIIO": {
+    "HOST": "",
+    "TOKEN": ""
+  },
+  "ACCELEROMETER": {
+    "PORT": 0
+  },
+  "FILE_PATHS": {
+    "VIDEO_FILE": "/home/pi/Videos/default.mp4",
+    "VIDEO_SOUND_FILE": "/home/pi/Videos/default.mp3",
+    "SOUND_FILE": "/home/pi/Videos/default.mp3"
+  },
+  "STATES": {
+    "DEFAULT": {
+      "VIDEO": {
+        "VIDEO_START_TIME": 0,
+        "VIDEO_END_TIME": 0,
+        "AUDIO_START_TIME": 0,
+        "AUDIO_END_TIME": 0
+      },
+      "SOUND": {
+        "SHOUND_PLAY": false,
+        "SOUND_START_TIME": 0,
+        "SOUND_END_TIME": 0
+      },
+      "WEB_SOCKET": {
+        "SHOULD_WORK": false
+      }
+    },
+    "STATE_1": {
+      "VIDEO": {
+        "VIDEO_START_TIME": 0,
+        "VIDEO_END_TIME": 0,
+        "AUDIO_START_TIME": 0,
+        "AUDIO_END_TIME": 0
+      },
+      "SOUND": {
+        "SHOUND_PLAY": true,
+        "SOUND_START_TIME": 0,
+        "SOUND_END_TIME": 1500
+      },
+      "WEB_SOCKET": {
+        "SHOULD_WORK": false
+      }
+    }
+  }
+} 
+ 

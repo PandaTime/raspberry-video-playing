@@ -7,7 +7,7 @@ let listener = function() {};
 /**
  * @param  {Function} cb
  */
-function listernAccelerometerUpdates(cb) {
+function listenAccelerometerUpdates(cb) {
   logger.debug('Setting state update listener', cb);
   listener = cb;
 }
@@ -23,5 +23,5 @@ raspberryController.listenAccelerometers()
 
 
 module.exports = {
-  listernAccelerometerUpdates,
+  listenAccelerometerUpdates,
 };

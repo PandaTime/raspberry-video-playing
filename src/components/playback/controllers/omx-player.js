@@ -8,6 +8,7 @@ class Player {
   constructor() {
     this.id = (new Date()).getTime();
     logger.debug('initializing');
+    this.hasStarted = false;
     this.isPlaying = true;
     this.cb = function() {};
   }
@@ -29,6 +30,10 @@ class Player {
     this.omxPlayer = new Omx(settings);
     this.omxPlayer.open(filePath);
 
+    this.omxPlayer.onStart(() => {
+      this.hasStarted = true;
+      logger.info(`Player ${this.id} has started`);
+    });
     this.omxPlayer.onProgress((info) => {
       // will output something like: layer is at 2500 / 10000; currently playing
       this.cb(info);
@@ -64,6 +69,10 @@ class Player {
    * @param {Number} playTime - time in microseconds
    */
   setPlayTime(playTime) {
+    if (!this.hasStarted) {
+      logger.warn('Could not setPlaytime: omx-player hasnt started yet');
+      return;
+    }
     if (isNaN(playTime)) {
       logger.error(`${this.id} setPlayTime() not a number: ${playTime}`);
       return;
