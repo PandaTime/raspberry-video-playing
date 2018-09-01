@@ -1,52 +1,17 @@
 const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('raspberry');
 const i2c = require('i2c-bus');
+const MPU6050 = require('i2c-mpu6050');
 const { ACCELEROMETER } = require(`${appRoot}/config/configuration.json`);
 
-const DS1621_ADDR = ACCELEROMETER.PORT; //0x48; // hex?!
-const CMD_ACCESS_CONFIG = 0xac;
-const CMD_READ_TEMP = 0xaa;
-const CMD_START_CONVERT = 0xee;
+const address = 0x70;
+const i2c1 = i2c.openSync(1);
 
-// Add here GPIO listeners
-/**
- * @return {Promise}
- */
-function listenAccelerometers() {
-  // const accelerometerPort = ACCELEROMETER.PORT;
-  // if (isNaN(accelerometerPort)) {
-  //   logger.error('No accelerometer port has been passed.');
-  //   throw new Error('No accelerometer port has been passed.');
-  // }
-  // logger.info('Connecting to Acceleremeter on port:', accelerometerPort);
-  // const accelerometers = new i2c(accelerometerPort, 'in', 'both');
-  // process.on('SIGINT', () => {
-  //   accelerometers.unexport();
-  // });
-  // return accelerometers;
-  const i2c1 = i2c.openSync(1);
+const sensor = new MPU6050(i2c1, address);
 
-  // Enter one shot mode (this is a non volatile setting)
-  i2c1.writeByteSync(DS1621_ADDR, CMD_ACCESS_CONFIG, 0x01);
-
-  // Wait while non volatile memory busy
-  while (i2c1.readByteSync(DS1621_ADDR, CMD_ACCESS_CONFIG) & 0x10) {
-  }
-
-  // Start temperature conversion
-  i2c1.sendByteSync(DS1621_ADDR, CMD_START_CONVERT);
-
-  // Wait for temperature conversion to complete
-  while ((i2c1.readByteSync(DS1621_ADDR, CMD_ACCESS_CONFIG) & 0x80) === 0) {
-  }
-
-  // Display temperature
-  const rawTemp = i2c1.readWordSync(DS1621_ADDR, CMD_READ_TEMP);
-  console.log('temp: ' + rawTemp);
-
-  i2c1.closeSync();
-}
+const data = sensor.readSync();
+console.log('data', data);
 
 module.exports = {
-  listenAccelerometers,
+  listenAccelerometers: function(){},
 };
