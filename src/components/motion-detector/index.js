@@ -13,13 +13,13 @@ function listenAccelerometerUpdates(cb) {
 }
 
 raspberryController.listenAccelerometers()
-  .watch((err, value) => {
-    if (err) {
-      logger.error('Something went wrong with accelerometer response', err);
-      throw err;
-    }
-    listener(value);
-  });
+  // .watch((err, value) => {
+  //   if (err) {
+  //     logger.error('Something went wrong with accelerometer response', err);
+  //     throw err;
+  //   }
+  //   listener(value);
+  // });
 
 
 module.exports = {

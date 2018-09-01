@@ -18,7 +18,7 @@ function createLogger() {
   }
   const logger = new winston.Logger({
     transports,
-    exitOnError: false, // do not exit on handled exceptions
+    exitOnError: true, // do not exit on handled exceptions
   });
   return logger;
 }

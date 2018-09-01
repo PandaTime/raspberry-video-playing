@@ -5,7 +5,7 @@
     "TOKEN": ""
   },
   "ACCELEROMETER": {
-    "PORT": 0
+    "PORT": 70
   },
   "FILE_PATHS": {
     "VIDEO_FILE": "/home/pi/Videos/default.mp4",
