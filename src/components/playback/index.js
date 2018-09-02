@@ -40,9 +40,6 @@ function init() {
     }
   });
   logger.info('Initialized Sound:', sound.id);
-  setTimeout(() => {
-    updateState(DEFAULT_STATE);
-  }, 1000);
 }
 
 /** */

@@ -31,7 +31,7 @@
       "SOUND": {
         "SHOUND_PLAY": false,
         "SOUND_START_TIME": 0,
-        "SOUND_END_TIME": 10
+        "SOUND_END_TIME": 4
       },
       "WEB_SOCKET": {
         "SHOULD_WORK": false
