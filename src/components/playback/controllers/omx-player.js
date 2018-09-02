@@ -6,8 +6,9 @@ const Omx = require('omx-layers');
 class Player {
   /**
    * @param {Boolean} autoRestartStatePlayback - whether we should restart STATE play, when reaching state's end time
+   * @param {Boolean} pauseOnStart - whether it should be paused on start
   */
-  constructor(autoRestartStatePlayback) {
+  constructor(autoRestartStatePlayback, pauseOnStart) {
     this.id = (new Date()).getTime();
     logger.debug(`initializing ${this.id}..`);
     logger.debug(`${this.id} autoRestartStatePlayback:`, autoRestartStatePlayback);
@@ -17,6 +18,7 @@ class Player {
     this.startTime = 0;
     this.endTime = Infinity;
     this.autoRestartStatePlayback;
+    this.pauseOnStart = pauseOnStart;
   }
   /**
    * @param {String} filePath
@@ -38,6 +40,9 @@ class Player {
 
     this.omxPlayer.onStart(() => {
       this.hasStarted = true;
+      if (this.pauseOnStart) {
+        this.setPlayStatus(false);
+      }
       logger.info(`Player ${this.id} has started`);
     });
     this.omxPlayer.onProgress((info) => {
@@ -120,11 +125,11 @@ function openVideoFile({ filePath, autoRestart }) {
 
 /**
  * Opening sound file in loop and stopping it immediately
- * @param  {{filePath, autoRestart}} filePath
+ * @param  {{filePath, autoRestart, pauseOnStart}} filePath
  * @return {OmxPlayer}
  */
-function openSoundFile({ filePath, autoRestart }) {
-  const player = new Player(autoRestart);
+function openSoundFile({ filePath, autoRestart, pauseOnStart }) {
+  const player = new Player(autoRestart, pauseOnStart);
   player.startPlayer(filePath, {
     audioOutput: 'local',
     layer: 0,

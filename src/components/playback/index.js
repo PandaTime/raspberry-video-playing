@@ -29,6 +29,7 @@ function init() {
   sound = omxController.openSoundFile({
     filePath: FILE_PATHS.SOUND_FILE,
     autoRestart: false,
+    pauseOnStart: true,
   });
   sound.setUpdatesListener((data) => {
     logger.debug(`layer is at ${data.position} / ${data.duration}; currently ${data.status}`);
