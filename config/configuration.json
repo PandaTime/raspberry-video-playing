@@ -12,7 +12,8 @@
     "ACCELEROMETER_PORT": "0x68",
     "MUX_PORT": "0x70",
     "CHANNELS": [0, 1],
-    "MAX_GYRO_DELTA": 5.0
+    "GYRO_DELTA": 5.0,
+    "ROTATION_DELTA": 5.0
   },
   "FILE_PATHS": {
     "VIDEO_FILE": "/home/pi/Videos/default.mp4",

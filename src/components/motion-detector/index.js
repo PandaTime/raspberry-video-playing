@@ -4,7 +4,8 @@ const logger = require(`${appRoot}/utils/logger`)('motion-detector/index');
 const raspberryController = require('./controllers/raspberry');
 const { ACCELEROMETER } = require(`${appRoot}/config/configuration.json`);
 
-let maxGyroDelta = ACCELEROMETER.MAX_GYRO_DELTA;
+let gyroDelta = ACCELEROMETER.GYRO_DELTA;
+let rotationDelta = ACCELEROMETER.ROTATION_DELTA;
 let previousAccelerometerData;
 let numberOfActiveAccelerometers = 0;
 let previouslyActiveAccelerometers = 0;
@@ -21,7 +22,7 @@ function init() {
  * @param {Array<Object>} accelerometers - for more info see https://github.com/emersion/node-i2c-mpu6050
  */
 function onAccelerometerData(accelerometers) {
-  logger.debug('Data from accelerometer', accelerometers);
+  logger.debug('Data from accelerometer', JSON.stringify(accelerometers));
   if (!previousAccelerometerData) {
     logger.info('Initial start');
     previousAccelerometerData = accelerometers;
@@ -34,17 +35,33 @@ function onAccelerometerData(accelerometers) {
 
   const activeAccelerometers = accelerometers.map((accelerometer, i) => {
     const gyro = accelerometer.gyro;
+    const rotation = accelerometer.rotation;
     const previousGyro = previousAccelerometerData[i].gyro;
+    const previousRotation = previousAccelerometerData[i].rotation;
     let isActive = false;
-    if (Math.abs(gyro.x - previousGyro.x) > maxGyroDelta ||
-      Math.abs(gyro.y - previousGyro.y) > maxGyroDelta ||
-      Math.abs(gyro.z - previousGyro.z) > maxGyroDelta
+    if (
+      Math.abs(gyro.x - previousGyro.x) > gyroDelta ||
+      Math.abs(gyro.y - previousGyro.y) > gyroDelta ||
+      Math.abs(gyro.z - previousGyro.z) > gyroDelta
+    ) {
+      isActive = true;
+    } else if (
+      Math.abs(rotation.x - previousRotation.x) > rotationDelta ||
+      Math.abs(rotation.y - previousRotation.y) > rotationDelta ||
+      Math.abs(rotation.z - previousRotation.z) > rotationDelta
     ) {
       isActive = true;
     }
     return isActive;
   });
+
+
   numberOfActiveAccelerometers = activeAccelerometers.filter((v) => v).length;
+
+  if (previouslyActiveAccelerometers !== numberOfActiveAccelerometers) {
+    previousAccelerometerData = accelerometers;
+  }
+
   logger.debug('number of active accelerometers:', numberOfActiveAccelerometers);
   logger.debug('active accelerometers:', activeAccelerometers);
 }
@@ -74,20 +91,40 @@ function watchConfigurationFileChange() {
         logger.error('Could not read config file:', err);
         return;
       }
-      try {
-        const newGyroDelta = JSON.parse(data.toString()).ACCELEROMETER.MAX_GYRO_DELTA;
-        if (!isNaN(newGyroDelta)) {
-          logger.info(`Updating delta accelerometer: ${maxGyroDelta} -> ${newGyroDelta}`);
-          maxGyroDelta = newGyroDelta;
-        } else {
-          logger.error('Wasnt able to update gyro delta: not a number.', typeof newGyroDelta, newGyroDelta);
-        }
-      } catch (err) {
-        logger.error('Wasnt able to update gyro delta:', err);
-        return;
-      }
+      updateAccelerometerDeltas(JSON.parse(data.toString()).ACCELEROMETER);
     });
   });
+}
+
+/**
+ * @param {Object} ACCELEROMETER
+ */
+function updateAccelerometerDeltas(ACCELEROMETER) {
+  logger.info('Configuration changed. Checking whether deltas has changed');
+  const newGyroDelta = ACCELEROMETER && ACCELEROMETER.GYRO_DELTA;
+  const newRotationDelta = ACCELEROMETER && ACCELEROMETER.ROTATION_DELTA;
+
+  if (!isNaN(newGyroDelta)) {
+    if (newGyroDelta !== gyroDelta) {
+      logger.info(`Updating gyro delta accelerometer: ${gyroDelta} -> ${newGyroDelta}`);
+      gyroDelta = newGyroDelta;
+    } else {
+      logger.debug('Gyro delta hasnt changed');
+    }
+  } else {
+    logger.error('Wasnt able to update gyro delta: not a number.', typeof newGyroDelta, newGyroDelta);
+  }
+
+  if (!isNaN(newRotationDelta)) {
+    if (newRotationDelta !== rotationDelta) {
+      logger.info(`Updating rotation delta accelerometer: ${rotationDelta} -> ${newRotationDelta}`);
+      rotationDelta = newRotationDelta;
+    } else {
+      logger.debug('Rotation delta hasnt changed');
+    }
+  } else {
+    logger.error('Wasnt able to update rotation delta: not a number.', typeof newRotationDelta, newRotationDelta);
+  }
 }
 
 
