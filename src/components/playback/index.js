@@ -2,7 +2,7 @@ const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('playback/index');
 const omxController = require('./controllers/omx-player');
 const miioController = require('./controllers/miio');
-const { FILE_PATHS, STATES, DEFAULT_STATE } = require(`${appRoot}/config/configuration.json`);
+const { FILE_PATHS, STATES, DEFAULT_STATE, MIIO } = require(`${appRoot}/config/configuration.json`);
 
 let isStatusChangeable = true;
 let currentState = DEFAULT_STATE;
@@ -12,7 +12,7 @@ let sound;
 
 /** */
 function init() {
-  miioController.connect();
+  miioController.connect(MIIO.HOST, MIIO.TOKEN);
   video = omxController.openVideoFile({
     filePath: FILE_PATHS.VIDEO_FILE,
     autoRestart: true,

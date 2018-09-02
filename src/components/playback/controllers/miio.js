@@ -5,11 +5,11 @@ const miio = require('miio');
 let miioDevice = {};
 
 /**
+ * @param {String} host
+ * @param {String} token
  */
-function connect() {
-  logger.info('Connecting to miio..');
-  const host = process.env.MIIO_HOST;
-  const token = process.env.MIIO_TOKEN;
+function connect(host, token) {
+  logger.info(`Connecting to miio. Host:${host}; Token:${token}`);
   if (!host) {
     logger.error('miio host not passed');
     return;
