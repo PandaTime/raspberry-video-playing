@@ -54,6 +54,9 @@ function onAccelerometerData(accelerometers) {
       logger.debug('Rotation active:', i);
       isActive = true;
     }
+    if (isActive) {
+      previousGyro[i] = accelerometer;
+    }
     return isActive;
   });
 
@@ -66,7 +69,6 @@ function onAccelerometerData(accelerometers) {
     logger.debug(`number of accelerometers updated: ${numberOfActiveAccelerometers} -> ${numActiveAccel}`);
     hasNumberChanged = true;
     numberOfActiveAccelerometers = numActiveAccel;
-    previousAccelerometerData = accelerometers;
   }
 }
 
