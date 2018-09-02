@@ -6,7 +6,7 @@ const MPU6050 = require('i2c-mpu6050');
 const muxAddress = 0x70;
 const accelererometerAddress = 0x68;
 const channelAccerometers = {};
-const channels = [0, 1, 2, 3, 4, 5];
+const channels = [0];//, 1, 2, 3, 4, 5];
 
 logger.info('Initializing');
 const i2c1 = i2c.openSync(1);
