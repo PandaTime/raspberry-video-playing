@@ -31,7 +31,7 @@ class Player {
     logger.debug('startPlayer()', this.id, 'Passed options', JSON.stringify(options));
     const defaultOptions = {
       loop: true,
-      //disableOnScreenDisplay: true,
+      disableOnScreenDisplay: true,
     };
 
     const settings = Object.assign({}, defaultOptions, options);
@@ -130,9 +130,9 @@ class Player {
       return;
     }
     logger.debug('setPlayTime()', `Setting ${this.id} player's play time to: ${playTime}`);
-    // ?!?!
+    // Otherwise omxplayer lags and goes to 0 location and stops
     if (playTime < this.currentTime) {
-      this.omxPlayer.setAbsolute(0);  
+      this.omxPlayer.setAbsolute(0);
     }
     this.omxPlayer.setAbsolute(playTime);
   }
