@@ -41,7 +41,7 @@ class Player {
     this.omxPlayer.onStart(() => {
       this.hasStarted = true;
       if (this.pauseOnStart) {
-        this.setPlayStatus(false);
+        this._setPlayStatus(false);
       }
       logger.info('startPlayer()', `Player ${this.id} has started`);
     });
@@ -51,8 +51,9 @@ class Player {
       if (info.position < this.endTime) return;
       if (this.autoRestartStatePlayback) {
         logger.debug('startPlayer()', `${this.id}: Player reached its end time. restarting..`);
-        this.setPlayTime(this.startTime);
+        this._setPlayTime(this.startTime);
       } else {
+        this._setPlayStatus(false);
         logger.debug('startPlayer()', `${this.id}: Player reached its end time. Not restarting.`);
       }
     });
@@ -61,10 +62,14 @@ class Player {
   /**
    * @param {*} param0
    */
-  setPlayFrames({ start, end }) {
+  setPlayFrames({ start, end, startPlay }) {
     logger.debug('setPlayFrames()', `${this.id} Setting start: ${start}; end ${end} times`);
     this.startTime = start;
     this.endTime = end;
+    this._setPlayTime(start);
+    if (startPlay) {
+      this._setPlayStatus(startPlay);
+    }
   }
   /**
    * @param {Function} cb
@@ -76,8 +81,9 @@ class Player {
 
   /**
    * @param {Boolean} shouldPlay
+   * @private
    */
-  setPlayStatus(shouldPlay) {
+  _setPlayStatus(shouldPlay) {
     if (this.isPlaying === shouldPlay) {
       logger.debug('setPlayStatus()', 'Player is already in the same status:', shouldPlay);
       return;
@@ -95,13 +101,13 @@ class Player {
    * Setting play time of the file
    * @param {Number} playTime - time in microseconds
    */
-  setPlayTime(playTime) {
+  _setPlayTime(playTime) {
     if (!this.hasStarted) {
       logger.warn('setPlayTime()', 'Could not setPlaytime: omx-player hasnt started yet');
       return;
     }
     if (isNaN(playTime)) {
-      logger.error('setPlayTime()', `${this.id} setPlayTime() not a number: ${playTime}`);
+      logger.error('setPlayTime()', `${this.id} not a number: ${playTime}`);
       return;
     }
     logger.debug('setPlayTime()', `Setting ${this.id} player's play time to: ${playTime}`);
