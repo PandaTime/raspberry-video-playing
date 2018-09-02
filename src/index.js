@@ -84,7 +84,7 @@ function init({ activeComponents, debugPlayback }) {
   }
 
   if (activeComponents.PLAYBACK) {
-    startPlayer();
+    startPlayer(debugPlayback);
   }
 }
 
