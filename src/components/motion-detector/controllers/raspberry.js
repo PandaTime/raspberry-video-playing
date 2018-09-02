@@ -32,7 +32,7 @@ function getAccelerometerData(channel) {
 */
 function listenAccelerometers(cb) {
   return setInterval(() => {
-    const muxAccelerometersData = channels.forEach((channel) => {
+    const muxAccelerometersData = channels.map((channel) => {
       return getAccelerometerData(1 << channel);
     });
     cb(muxAccelerometersData);
