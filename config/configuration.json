@@ -1,4 +1,8 @@
 {
+  "LOG_LEVEL": {
+    "CONSOLE": "debug",
+    "FILE": "debug"
+  },
   "DEFAULT_STATE": "DEFAULT",
   "MIIO": {
     "HOST": "",

@@ -1,12 +1,12 @@
 const appRoot = require('app-root-path');
+const { LOG_LEVEL } = require('./configuration.json');
 /**
  * @return {Object} - Map of Winston's configuration options
  */
 function getOptions() {
-  const logLevel = process.env.LOG_LEVEL || 'debug' ||'info';
   const options = {
     file: {
-      level: logLevel,
+      level: LOG_LEVEL.FILE,
       filename: `${appRoot}/logs/app.log`,
       handleExceptions: true,
       json: true,
@@ -15,7 +15,7 @@ function getOptions() {
       colorize: false,
     },
     console: {
-      level: logLevel,
+      level: LOG_LEVEL.CONSOLE,
       handleExceptions: true,
       json: false,
       colorize: true,
