@@ -23,8 +23,8 @@ function onAccelerometerData(accelerometers) {
     return;
   }
 
-  activeAccelerometers = accelerometers.filter((acceloremeter, i) => {
-    const gyro = accelerometers.gyro;
+  activeAccelerometers = accelerometers.filter((accelerometer, i) => {
+    const gyro = accelerometer.gyro;
     const previousGyro = previousAccelerometerData[i].gyro;
     let isActive = false;
     if (Math.abs(gyro.x - previousGyro.x) > possibleDelta ||
