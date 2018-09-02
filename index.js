@@ -11,8 +11,8 @@ function getEnvConfiguration() {
   logger.info('Passed env:', env);
   const envConfiguration = {
     activeComponents: {
-      motionDetector: true,
-      player: true,
+      MOTION_DETECTOR: true,
+      PLAYER: true,
     },
     debugPlayback: false,
   };
