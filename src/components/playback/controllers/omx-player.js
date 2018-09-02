@@ -17,7 +17,7 @@ class Player {
     this.cb = function() {};
     this.startTime = 0;
     this.endTime = Infinity;
-    this.autoRestartStatePlayback;
+    this.autoRestartStatePlayback = autoRestartStatePlayback;
     this.pauseOnStart = pauseOnStart;
   }
   /**
