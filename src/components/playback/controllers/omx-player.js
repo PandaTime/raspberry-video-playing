@@ -25,15 +25,15 @@ class Player {
    * @param {Object} options - see https://github.com/winstonwp/omxplayer-controll#usage
    */
   startPlayer(filePath, options) {
-    logger.debug('Passed options', JSON.stringify(options));
+    logger.debug('startPlayer()', 'Passed options', JSON.stringify(options));
     const defaultOptions = {
       loop: true,
     };
 
     const settings = Object.assign({}, defaultOptions, options);
 
-    logger.debug('Path to file:', filePath);
-    logger.debug('Start Player with such settings:', JSON.stringify(settings));
+    logger.debug('startPlayer()', 'Path to file:', filePath);
+    logger.debug('startPlayer()', 'Start Player with such settings:', JSON.stringify(settings));
 
     this.omxPlayer = new Omx(settings);
     this.omxPlayer.open(filePath);
@@ -43,17 +43,17 @@ class Player {
       if (this.pauseOnStart) {
         this.setPlayStatus(false);
       }
-      logger.info(`Player ${this.id} has started`);
+      logger.info('startPlayer()', `Player ${this.id} has started`);
     });
     this.omxPlayer.onProgress((info) => {
       this.cb(info);
       // will output something like: layer is at 2500 / 10000; currently playing
       if (info.position < this.endTime) return;
       if (this.autoRestartStatePlayback) {
-        logger.debug(`${this.id}: Player reached its end time. restarting..`);
+        logger.debug('startPlayer()', `${this.id}: Player reached its end time. restarting..`);
         this.setPlayTime(this.startTime);
       } else {
-        logger.debug(`${this.id}: Player reached its end time. Not restarting.`);
+        logger.debug('startPlayer()', `${this.id}: Player reached its end time. Not restarting.`);
       }
     });
   }
@@ -62,7 +62,7 @@ class Player {
    * @param {*} param0
    */
   setPlayFrames({ start, end }) {
-    logger.debug(`${this.id} Setting start: ${start}; end ${end} times`);
+    logger.debug('setPlayFrames()', `${this.id} Setting start: ${start}; end ${end} times`);
     this.startTime = start;
     this.endTime = end;
   }
@@ -70,7 +70,7 @@ class Player {
    * @param {Function} cb
    */
   setUpdatesListener(cb) {
-    logger.debug('listenForUpdated');
+    logger.debug('setPlayFrames(), listenForUpdated');
     this.cb = cb;
   }
 
@@ -79,10 +79,10 @@ class Player {
    */
   setPlayStatus(shouldPlay) {
     if (this.isPlaying === shouldPlay) {
-      logger.debug('Player is already in the same status:', shouldPlay);
+      logger.debug('setPlayStatus()', 'Player is already in the same status:', shouldPlay);
       return;
     }
-    logger.debug('Updating "isPlayed" status to:', shouldPlay);
+    logger.debug('setPlayStatus()', 'Updating "isPlayed" status to:', shouldPlay);
     this.isPlaying = shouldPlay;
     if (shouldPlay) {
       this.omxPlayer.resume();
@@ -97,14 +97,14 @@ class Player {
    */
   setPlayTime(playTime) {
     if (!this.hasStarted) {
-      logger.warn('Could not setPlaytime: omx-player hasnt started yet');
+      logger.warn('setPlayTime()', 'Could not setPlaytime: omx-player hasnt started yet');
       return;
     }
     if (isNaN(playTime)) {
-      logger.error(`${this.id} setPlayTime() not a number: ${playTime}`);
+      logger.error('setPlayTime()', `${this.id} setPlayTime() not a number: ${playTime}`);
       return;
     }
-    logger.debug(`Setting ${this.id} player's play time to: ${playTime}`);
+    logger.debug('setPlayTime()', `Setting ${this.id} player's play time to: ${playTime}`);
     this.omxPlayer.setAbsolute(playTime);
   }
 }
