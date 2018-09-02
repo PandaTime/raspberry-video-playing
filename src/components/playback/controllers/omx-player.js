@@ -29,6 +29,7 @@ class Player {
     logger.debug('startPlayer()', 'Passed options', JSON.stringify(options));
     const defaultOptions = {
       loop: true,
+      disableOnScreenDisplay: true,
     };
 
     const settings = Object.assign({}, defaultOptions, options);
