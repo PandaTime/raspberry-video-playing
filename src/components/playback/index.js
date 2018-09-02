@@ -55,7 +55,6 @@ function updateOmxPlayer() {
       start: currentStateConfig.VIDEO.AUDIO_START_TIME,
       end: currentStateConfig.VIDEO.AUDIO_END_TIME,
     });
-    sound.setPlayStatus(currentStateConfig.SOUND.SHOUND_PLAY);
     if (currentStateConfig.SOUND.SHOUND_PLAY) {
       sound.setPlayTime(currentStateConfig.SOUND.SOUND_START_TIME);
     }
