@@ -7,9 +7,8 @@ const MILLISECONDS_IN_SECONDS = 1000;
 class Player {
   /**
    * @param {Boolean} autoRestartStatePlayback - whether we should restart STATE play, when reaching state's end time
-   * @param {Boolean} pauseOnStart - whether it should be paused on start
   */
-  constructor(autoRestartStatePlayback, pauseOnStart) {
+  constructor(autoRestartStatePlayback) {
     this.id = (new Date()).getTime();
     logger.debug(`initializing ${this.id}..`);
     logger.debug(`${this.id} autoRestartStatePlayback:`, autoRestartStatePlayback);
@@ -19,20 +18,8 @@ class Player {
     this.startTime = 0;
     this.endTime = Infinity;
     this.autoRestartStatePlayback = autoRestartStatePlayback;
-    this.pauseOnStart = pauseOnStart;
 
     this._onStartStatusCheckInitialized = false;
-  }
-  /**
-   * Could stop onStart() cb, therefore we need to "on start pause" here.
-   * @param {String} status
-   */
-  _onStartPlayStatusCheck(status) {
-    if (this._onStartStatusCheckInitialized) return;
-    if (status === 'playing' && this.pauseOnStart) {
-      this._setPlayStatus(false);
-    }
-    this._onStartStatusCheckInitialized = true;
   }
 
   /**
@@ -59,7 +46,6 @@ class Player {
       logger.info('startPlayer()', this.id, 'Player has started');
     });
     this.omxPlayer.onProgress((info) => {
-      this._onStartPlayStatusCheck(info.status);
       const infoInSeconds = {
         position: info.position / MILLISECONDS_IN_SECONDS,
         duration: info.duration / MILLISECONDS_IN_SECONDS,
@@ -157,11 +143,11 @@ function openVideoFile({ filePath, autoRestart }) {
 
 /**
  * Opening sound file in loop and stopping it immediately
- * @param  {{filePath, autoRestart, pauseOnStart}} filePath
+ * @param  {{filePath, autoRestart}} filePath
  * @return {OmxPlayer}
  */
-function openSoundFile({ filePath, autoRestart, pauseOnStart, layer }) {
-  const player = new Player(autoRestart, pauseOnStart);
+function openSoundFile({ filePath, autoRestart, layer }) {
+  const player = new Player(autoRestart);
   player.startPlayer(filePath, {
     audioOutput: 'local',
     layer,
