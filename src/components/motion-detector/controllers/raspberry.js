@@ -2,7 +2,7 @@ const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('raspberry');
 const i2c = require('i2c-bus');
 const MPU6050 = require('i2c-mpu6050');
-const { ACCELEROMETER } = require(`${appRoot}/config/configuration.jsocn`);
+const { ACCELEROMETER } = require(`${appRoot}/config/configuration.json`);
 
 const muxAddress = parseInt(ACCELEROMETER.MUX_PORT, 16);
 const accelererometerAddress = parseInt(ACCELEROMETER.ACCELEROMETER_PORT, 16);

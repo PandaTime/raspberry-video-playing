@@ -39,12 +39,11 @@ function onAccelerometerData(accelerometers) {
 }
 
 /**
- * @return {Number}
  */
-function getNumberOfActiveMotionDetectors() {
-  return activeAccelerometers;
+function onActiveAccelerometersChange(cb) {
+  setInterval(function() {}, 500);
 }
 
 module.exports = {
-  getNumberOfActiveMotionDetectors,
+  onActiveAccelerometersChange,
 };
