@@ -5,7 +5,9 @@
     "TOKEN": ""
   },
   "ACCELEROMETER": {
-    "PORT": 70
+    "ACCELEROMETER_PORT": "0x68",
+    "MUX_PORT": "0x70",
+    "CHANNELS": [0]
   },
   "FILE_PATHS": {
     "VIDEO_FILE": "/home/pi/Videos/default.mp4",

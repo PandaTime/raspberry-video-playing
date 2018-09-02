@@ -2,14 +2,24 @@ const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('raspberry');
 const i2c = require('i2c-bus');
 const MPU6050 = require('i2c-mpu6050');
+const { ACCELEROMETER } = require(`${appRoot}/config/configuration.jsocn`);
 
-const muxAddress = 0x70;
-const accelererometerAddress = 0x68;
+const muxAddress = parseInt(ACCELEROMETER.MUX_PORT, 16);
+const accelererometerAddress = parseInt(ACCELEROMETER.ACCELEROMETER_PORT, 16);
+const channels = ACCELEROMETER.CHANNELS;
 const channelAccerometers = {};
-const channels = [0];//, 1, 2, 3, 4, 5];
+let callback;
 
 logger.info('Initializing');
 const i2c1 = i2c.openSync(1);
+
+/**
+ * @param {Function} cb
+ */
+function updateCb(cb) {
+  logger.debug('Updating callback function');
+  callback = cb;
+}
 
 /**
  * @param {Number} channel - channel number, should be byte, e.g. 1 << 0 - 0 channel, 1 << n - n-th channel etc.
@@ -27,19 +37,19 @@ function getAccelerometerData(channel) {
 }
 
 /**
- * @param {Function} cb - passing to cb list of accelerometer data
  * @return {Number} timeoutInterval
 */
-function listenAccelerometers(cb) {
+function listenAccelerometers() {
   return setInterval(() => {
     const muxAccelerometersData = channels.map((channel) => {
       return getAccelerometerData(1 << channel);
     });
-    cb(muxAccelerometersData);
+    callback(muxAccelerometersData);
   }, 500);
 }
 
 
 module.exports = {
+  updateCb,
   listenAccelerometers,
 };
