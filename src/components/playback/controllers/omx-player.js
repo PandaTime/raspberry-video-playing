@@ -53,8 +53,8 @@ class Player {
         logger.debug('startPlayer()', `${this.id}: Player reached its end time. restarting..`);
         this._setPlayTime(this.startTime);
       } else {
-        this._setPlayStatus(false);
         logger.debug('startPlayer()', `${this.id}: Player reached its end time. Not restarting.`);
+        this._setPlayStatus(false);
       }
     });
   }
@@ -67,7 +67,7 @@ class Player {
     this.startTime = start;
     this.endTime = end;
     this._setPlayTime(start);
-    if (startPlay) {
+    if (startPlay !== undefined) {
       this._setPlayStatus(startPlay);
     }
   }
