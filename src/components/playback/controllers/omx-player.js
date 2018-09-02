@@ -150,7 +150,7 @@ function openVideoFile({ filePath, autoRestart }) {
   const player = new Player(autoRestart);
   player.startPlayer(filePath, {
     audioOutput: 'hdmi',
-    layer: 1,
+    layer: 2,
   });
   return player;
 }
@@ -160,11 +160,11 @@ function openVideoFile({ filePath, autoRestart }) {
  * @param  {{filePath, autoRestart, pauseOnStart}} filePath
  * @return {OmxPlayer}
  */
-function openSoundFile({ filePath, autoRestart, pauseOnStart }) {
+function openSoundFile({ filePath, autoRestart, pauseOnStart, layer }) {
   const player = new Player(autoRestart, pauseOnStart);
   player.startPlayer(filePath, {
     audioOutput: 'local',
-    layer: 0,
+    layer,
   });
   return player;
 }
