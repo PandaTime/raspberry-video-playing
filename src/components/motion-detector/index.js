@@ -6,7 +6,7 @@ const { ACCELEROMETER } = require(`${appRoot}/config/configuration.json`);
 
 let maxGyroDelta = ACCELEROMETER.MAX_GYRO_DELTA;
 let previousAccelerometerData;
-let activeAccelerometers = 0;
+let numberOfActiveAccelerometers = 0;
 let previouslyActiveAccelerometers = 0;
 
 raspberryController.updateCb(onAccelerometerData);
@@ -28,7 +28,7 @@ function onAccelerometerData(accelerometers) {
     return;
   }
 
-  activeAccelerometers = accelerometers.filter((accelerometer, i) => {
+  const activeAccelerometers = accelerometers.map((accelerometer, i) => {
     const gyro = accelerometer.gyro;
     const previousGyro = previousAccelerometerData[i].gyro;
     let isActive = false;
@@ -40,6 +40,8 @@ function onAccelerometerData(accelerometers) {
     }
     return isActive;
   }).length;
+  numberOfActiveAccelerometers = activeAccelerometers.filter((v) => v).length;
+  logger.debug('number of active accelerometers:', numberOfActiveAccelerometers);
   logger.debug('active accelerometers:', activeAccelerometers);
 }
 
@@ -48,10 +50,10 @@ function onAccelerometerData(accelerometers) {
  */
 function onActiveAccelerometersChange(cb) {
   setInterval(function() {
-    if (previouslyActiveAccelerometers !== activeAccelerometers) {
-      logger.debug(`number of accelerometers updated: ${previousAccelerometerData} -> ${activeAccelerometers}`);
-      previouslyActiveAccelerometers = activeAccelerometers;
-      cb(activeAccelerometers);
+    if (previouslyActiveAccelerometers !== numberOfActiveAccelerometers) {
+      logger.debug(`number of accelerometers updated: ${previousAccelerometerData} -> ${numberOfActiveAccelerometers}`);
+      previouslyActiveAccelerometers = numberOfActiveAccelerometers;
+      cb(numberOfActiveAccelerometers);
     }
   }, 500);
 }
