@@ -6,6 +6,7 @@ const { ACCELEROMETER } = require(`${appRoot}/config/configuration.json`);
 const maxGyroDelta = ACCELEROMETER.MAX_GYRO_DELTA;
 let previousAccelerometerData;
 let activeAccelerometers = 0;
+let previouslyActiveAccelerometers = 0;
 
 raspberryController.updateCb(onAccelerometerData);
 
@@ -40,9 +41,16 @@ function onAccelerometerData(accelerometers) {
 }
 
 /**
+ * @param {Function<Number>} cb - called every time when number of accelerometers change. call it with # of active accel
  */
 function onActiveAccelerometersChange(cb) {
-  setInterval(function() {}, 500);
+  setInterval(function() {
+    if (previouslyActiveAccelerometers !== activeAccelerometers) {
+      logger.debug(`number of accelerometers updated: ${previousAccelerometerData} -> ${activeAccelerometers}`);
+      previouslyActiveAccelerometers = activeAccelerometers;
+      cb(activeAccelerometers);
+    }
+  }, 500);
 }
 
 module.exports = {
