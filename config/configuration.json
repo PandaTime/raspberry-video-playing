@@ -1,6 +1,6 @@
 {
   "LOG_LEVEL": {
-    "CONSOLE": "debug",
+    "CONSOLE": "info",
     "FILE": "debug"
   },
   "DEFAULT_STATE": "DEFAULT",
