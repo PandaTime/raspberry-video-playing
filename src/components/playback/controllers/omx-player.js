@@ -39,7 +39,7 @@ class Player {
    * @param {Object} options - see https://github.com/winstonwp/omxplayer-controll#usage
    */
   startPlayer(filePath, options) {
-    logger.debug('startPlayer()', 'Passed options', JSON.stringify(options));
+    logger.debug('startPlayer()', this.id, 'Passed options', JSON.stringify(options));
     const defaultOptions = {
       loop: true,
       disableOnScreenDisplay: true,
@@ -47,15 +47,15 @@ class Player {
 
     const settings = Object.assign({}, defaultOptions, options);
 
-    logger.debug('startPlayer()', 'Path to file:', filePath);
-    logger.debug('startPlayer()', 'Start Player with such settings:', JSON.stringify(settings));
+    logger.debug('startPlayer()', this.id, 'Path to file:', filePath);
+    logger.debug('startPlayer()', this.id, 'Start Player with such settings:', JSON.stringify(settings));
 
     this.omxPlayer = new Omx(settings);
     this.omxPlayer.open(filePath);
 
     this.omxPlayer.onStart(() => {
       this.hasStarted = true;
-      logger.info('startPlayer()', `Player ${this.id} has started`);
+      logger.info('startPlayer()', this.id, 'Player has started');
     });
     this.omxPlayer.onProgress((info) => {
       this._onStartPlayStatusCheck(info.status);
@@ -110,10 +110,10 @@ class Player {
    */
   _setPlayStatus(shouldPlay) {
     if (this.isPlaying === shouldPlay) {
-      logger.debug('setPlayStatus()', 'Player is already in the same status:', shouldPlay);
+      logger.debug('setPlayStatus()', this.id, 'Player is already in the same status:', shouldPlay);
       return;
     }
-    logger.debug('setPlayStatus()', 'Updating "isPlayed" status to:', shouldPlay);
+    logger.debug('setPlayStatus()', this.id, 'Updating "isPlayed" status to:', shouldPlay);
     this.isPlaying = shouldPlay;
     if (shouldPlay) {
       this.omxPlayer.resume();
@@ -128,7 +128,7 @@ class Player {
    */
   _setPlayTime(playTime) {
     if (!this.hasStarted) {
-      logger.warn('setPlayTime()', 'Could not setPlaytime: omx-player hasnt started yet');
+      logger.warn('setPlayTime()', this.id, 'Could not setPlaytime: omx-player hasnt started yet');
       return;
     }
     if (isNaN(playTime)) {
