@@ -20,7 +20,20 @@ class Player {
     this.endTime = Infinity;
     this.autoRestartStatePlayback = autoRestartStatePlayback;
     this.pauseOnStart = pauseOnStart;
+
+    this._onStartStatusCheckInitialized = false;
   }
+  /**
+   * Could stop onStart() cb, therefore we need to "on start pause" here.
+   * @param {String} status
+   */
+  _onStartPlayStatusCheck(status) {
+    if (this._onStartStatusCheckInitialized) return;
+    if (status === 'playing' && this.pauseOnStart) {
+      this._setPlayStatus(false);
+    }
+  }
+
   /**
    * @param {String} filePath
    * @param {Object} options - see https://github.com/winstonwp/omxplayer-controll#usage
@@ -42,12 +55,10 @@ class Player {
 
     this.omxPlayer.onStart(() => {
       this.hasStarted = true;
-      if (this.pauseOnStart) {
-        this._setPlayStatus(false);
-      }
       logger.info('startPlayer()', `Player ${this.id} has started`);
     });
     this.omxPlayer.onProgress((info) => {
+      this._onStartPlayStatusCheck(info.status);
       const infoInSeconds = {
         position: info.position / MILLISECONDS_IN_SECONDS,
         duration: info.duration / MILLISECONDS_IN_SECONDS,
