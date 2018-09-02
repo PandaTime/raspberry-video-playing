@@ -63,10 +63,6 @@ class Player {
         logger.debug('startPlayer()', `${this.id}: Player reached its end time. restarting..`);
         logger.debug('startPlayer()', `${this.id}: Current ${infoInSeconds.position}. End: ${this.endTime}.`);
         this._setPlayTime(this.startTime);
-      } else if (this.isPlaying) {
-        logger.debug('startPlayer()', `${this.id}: Player reached its end time. Not restarting.`);
-        logger.debug('startPlayer()', `${this.id}: Current ${infoInSeconds.position}. End: ${this.endTime}.`);
-        this._setPlayStatus(false);
       }
     });
   }

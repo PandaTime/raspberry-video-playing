@@ -36,7 +36,7 @@ function init() {
     logger.debug(`layer is at ${data.position} / ${data.duration}; currently ${data.status}`);
     if (!isStatusChangeable && data.position > STATES[currentState].SOUND.SOUND_END_TIME) {
       updateStatus(true);
-      updateState(DEFAULT_STATE);
+      updateState(currentState);
     }
   });
   logger.info('Initialized Sound:', sound.id);
