@@ -6,6 +6,7 @@ const { FILE_PATHS, STATES, DEFAULT_STATE, MIIO } = require(`${appRoot}/config/c
 
 let isStatusChangeable = true;
 let currentState = DEFAULT_STATE;
+let lastState = DEFAULT_STATE;
 let video;
 let videoSound;
 let sound;
@@ -36,7 +37,7 @@ function init() {
     logger.debug(`layer is at ${data.position} / ${data.duration}; currently ${data.status}`);
     if (!isStatusChangeable && data.position > STATES[currentState].SOUND.SOUND_END_TIME) {
       updateStatus(true);
-      updateState(currentState);
+      updateState(lastState);
     }
   });
   logger.info('Initialized Sound:', sound.id);
@@ -77,11 +78,12 @@ function updateState(newState) {
   }
 
   if (!isStatusChangeable) {
-    logger.debug('Could not update state - previous state hasnt finished');
+    logger.debug('Could not update state - previous state hasnt finished. Updating lastState.');
+    lastState = newState;
     return;
   }
 
-  logger.debug('Updating state to:', newState);
+  logger.info('Updating state to:', newState);
   currentState = newState;
 
   updateStatus(currentState === DEFAULT_STATE);
