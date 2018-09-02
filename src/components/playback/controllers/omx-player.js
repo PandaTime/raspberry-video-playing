@@ -19,6 +19,7 @@ class Player {
     this.endTime = 5;
     this.autoRestartStatePlayback = autoRestartStatePlayback;
 
+    this.currentTime = 0;
     this._onStartStatusCheckInitialized = false;
   }
 
@@ -51,6 +52,8 @@ class Player {
         duration: info.duration / MILLISECONDS_IN_SECONDS,
         status: info.status,
       };
+      this.currentTime = infoInSeconds.position;
+
       logger.debug(this.id,
         `layer is at ${infoInSeconds.position} / ${infoInSeconds.duration}; currently ${infoInSeconds.status}`);
       this.cb(infoInSeconds);
@@ -127,6 +130,10 @@ class Player {
       return;
     }
     logger.debug('setPlayTime()', `Setting ${this.id} player's play time to: ${playTime}`);
+    // ?!?!
+    if (playTime < this.currentTime) {
+      this.omxPlayer.setAbsolute(0);  
+    }
     this.omxPlayer.setAbsolute(playTime);
   }
 }
