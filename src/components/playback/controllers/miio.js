@@ -61,8 +61,8 @@ function setMiioDevice(device) {
   });
 }
 
-connect();
 
 module.exports = {
+  connect,
   updatePowerSocket,
 };

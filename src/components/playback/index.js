@@ -10,10 +10,9 @@ let video;
 let videoSound;
 let sound;
 
-init();
-
 /** */
 function init() {
+  miioController.connect();
   video = omxController.openVideoFile(FILE_PATHS.VIDEO_FILE);
   logger.info('Initialized Video:', video.id);
 
@@ -80,5 +79,6 @@ function updateStatus(changeable) {
 
 
 module.exports = {
+  init,
   updateState,
 };
