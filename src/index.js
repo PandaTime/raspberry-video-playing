@@ -1,5 +1,6 @@
 const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('components/index');
+const readline = require('readline');
 
 const playback = require('./components/playback');
 const motionDetector = require('./components/motion-detector');
@@ -62,7 +63,15 @@ function startPlayer(debugMode) {
 
 /** */
 function listenForStdit() {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false,
+  });
 
+  rl.on('line', (line) => {
+    logger.debug('line');
+  });
 }
 
 /**
