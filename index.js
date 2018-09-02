@@ -12,7 +12,7 @@ function getEnvConfiguration() {
   const envConfiguration = {
     activeComponents: {
       MOTION_DETECTOR: true,
-      PLAYER: true,
+      PLAYBACK: true,
     },
     debugPlayback: false,
   };
