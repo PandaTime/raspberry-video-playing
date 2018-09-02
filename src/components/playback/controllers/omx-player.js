@@ -78,10 +78,17 @@ class Player {
     logger.debug('setPlayFrames()', `${this.id} Setting start: ${start}; end ${end} times`);
     this.startTime = start;
     this.endTime = end;
-    if (startPlay !== undefined) {
+
+    // for better ux
+    if (startPlay !== undefined && startPlay === false) {
       this._setPlayStatus(startPlay);
     }
+
     this._setPlayTime(start);
+
+    if (startPlay !== undefined && startPlay === true) {
+      this._setPlayStatus(startPlay);
+    }
   }
   /**
    * @param {Function} cb
