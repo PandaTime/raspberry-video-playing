@@ -18,7 +18,7 @@ const i2c1 = i2c.openSync(1);
 function getAccelerometerData(channel) {
   logger.debug('getting accelerometer data for channel:', channel);
   // setting mux channel
-  i2c.writeByteSync(muxAddress, channel, channel);
+  i2c1.writeByteSync(muxAddress, channel, channel);
   // reading MPU data
   if (!channelAccerometers[channel]) {
     channelAccerometers[channel] = new MPU6050(i2c1, accelererometerAddress);
