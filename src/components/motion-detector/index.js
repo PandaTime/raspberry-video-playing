@@ -63,8 +63,9 @@ function onAccelerometerData(accelerometers) {
   logger.debug('active accelerometers:', activeAccelerometers);
 
   if (numActiveAccel !== numberOfActiveAccelerometers) {
-    logger.debug(`number of accelerometers updated: ${numActiveAccel} -> ${numberOfActiveAccelerometers}`);
+    logger.debug(`number of accelerometers updated: ${numberOfActiveAccelerometers} -> ${numActiveAccel}`);
     hasNumberChanged = true;
+    numberOfActiveAccelerometers = numActiveAccel;
     previousAccelerometerData = accelerometers;
   }
 }
