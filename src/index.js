@@ -71,10 +71,10 @@ function listenForStdit() {
 function init({ activeComponents, debugPlayback }) {
   logger.info('Initializing..');
   if (activeComponents.MOTION_DETECTOR) {
-    startMotionDetector(activeComponents.PLAYER);
+    startMotionDetector(activeComponents.PLAYBACK);
   }
 
-  if (activeComponents.PLAYER) {
+  if (activeComponents.PLAYBACK) {
     startPlayer();
   }
 }
