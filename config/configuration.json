@@ -16,17 +16,17 @@
     "ROTATION_DELTA": 5.0
   },
   "FILE_PATHS": {
-    "VIDEO_FILE": "/home/pi/Videos/default.mp4",
-    "VIDEO_SOUND_FILE": "/home/pi/Videos/default.mp3",
-    "SOUND_FILE": "/home/pi/Videos/default.mp3"
+    "VIDEO_FILE": "/home/pi/Videos/SampleVideo.mp4",
+    "VIDEO_SOUND_FILE": "/home/pi/Videos/SampleAudio.mp3",
+    "SOUND_FILE": "/home/pi/Videos/Sound.mp3"
   },
   "STATES": {
     "DEFAULT": {
       "VIDEO": {
         "VIDEO_START_TIME": 0,
-        "VIDEO_END_TIME": 0,
+        "VIDEO_END_TIME": 10000,
         "AUDIO_START_TIME": 0,
-        "AUDIO_END_TIME": 0
+        "AUDIO_END_TIME": 10000
       },
       "SOUND": {
         "SHOUND_PLAY": false,
@@ -39,15 +39,15 @@
     },
     "STATE_1": {
       "VIDEO": {
-        "VIDEO_START_TIME": 0,
-        "VIDEO_END_TIME": 0,
-        "AUDIO_START_TIME": 0,
-        "AUDIO_END_TIME": 0
+        "VIDEO_START_TIME": 10001,
+        "VIDEO_END_TIME": 20001,
+        "AUDIO_START_TIME": 10001,
+        "AUDIO_END_TIME": 20001
       },
       "SOUND": {
         "SHOUND_PLAY": true,
         "SOUND_START_TIME": 0,
-        "SOUND_END_TIME": 1500
+        "SOUND_END_TIME": 20500
       },
       "WEB_SOCKET": {
         "SHOULD_WORK": false
