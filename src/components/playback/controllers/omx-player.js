@@ -2,6 +2,7 @@ const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('omx-player');
 const Omx = require('omx-layers');
 
+const MILLISECONDS_IN_SECONDS = 1000;
 /** */
 class Player {
   /**
@@ -46,13 +47,19 @@ class Player {
       logger.info('startPlayer()', `Player ${this.id} has started`);
     });
     this.omxPlayer.onProgress((info) => {
-      this.cb(info);
+      const infoInSeconds = {
+        position: info.position * MILLISECONDS_IN_SECONDS,
+        duration: info.duration * MILLISECONDS_IN_SECONDS,
+        status: info.status,
+      };
+      // logger.debug(`layer is at ${data.position} / ${data.duration}; currently ${data.status}`);
+      this.cb(infoInSeconds);
       // will output something like: layer is at 2500 / 10000; currently playing
-      if (info.position < this.endTime) return;
+      if (infoInSeconds.position < this.endTime) return;
       if (this.autoRestartStatePlayback) {
         logger.debug('startPlayer()', `${this.id}: Player reached its end time. restarting..`);
         this._setPlayTime(this.startTime);
-      } else {
+      } else if (this.isPlaying) {
         logger.debug('startPlayer()', `${this.id}: Player reached its end time. Not restarting.`);
         this._setPlayStatus(false);
       }
