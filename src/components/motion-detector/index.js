@@ -6,9 +6,9 @@ const { ACCELEROMETER } = require(`${appRoot}/config/configuration.json`);
 
 let gyroDelta = ACCELEROMETER.GYRO_DELTA;
 let rotationDelta = ACCELEROMETER.ROTATION_DELTA;
-let previousAccelerometerData;
+let previousAccelerometerData = [];
 let numberOfActiveAccelerometers = 0;
-let previouslyActiveAccelerometers = 0;
+let hasNumberChanged = false;
 
 /** */
 function init() {
@@ -44,26 +44,29 @@ function onAccelerometerData(accelerometers) {
       Math.abs(gyro.y - previousGyro.y) > gyroDelta ||
       Math.abs(gyro.z - previousGyro.z) > gyroDelta
     ) {
+      logger.debug('Gyro active:', i);
       isActive = true;
     } else if (
       Math.abs(rotation.x - previousRotation.x) > rotationDelta ||
       Math.abs(rotation.y - previousRotation.y) > rotationDelta ||
       Math.abs(rotation.z - previousRotation.z) > rotationDelta
     ) {
+      logger.debug('Rotation active:', i);
       isActive = true;
     }
     return isActive;
   });
 
+  const numActiveAccel = activeAccelerometers.filter((v) => v).length;
 
-  numberOfActiveAccelerometers = activeAccelerometers.filter((v) => v).length;
+  logger.debug('number of active accelerometers:', numActiveAccel);
+  logger.debug('active accelerometers:', activeAccelerometers);
 
-  if (previouslyActiveAccelerometers !== numberOfActiveAccelerometers) {
+  if (numActiveAccel !== numberOfActiveAccelerometers) {
+    logger.debug(`number of accelerometers updated: ${numActiveAccel} -> ${numberOfActiveAccelerometers}`);
+    hasNumberChanged = true;
     previousAccelerometerData = accelerometers;
   }
-
-  logger.debug('number of active accelerometers:', numberOfActiveAccelerometers);
-  logger.debug('active accelerometers:', activeAccelerometers);
 }
 
 /**
@@ -71,9 +74,8 @@ function onAccelerometerData(accelerometers) {
  */
 function onActiveAccelerometersChange(cb) {
   setInterval(function() {
-    if (previouslyActiveAccelerometers !== numberOfActiveAccelerometers) {
-      logger.debug(`number of accelerometers updated: ${previousAccelerometerData} -> ${numberOfActiveAccelerometers}`);
-      previouslyActiveAccelerometers = numberOfActiveAccelerometers;
+    if (hasNumberChanged) {
+      hasNumberChanged = false;
       cb(numberOfActiveAccelerometers);
     }
   }, 500);
