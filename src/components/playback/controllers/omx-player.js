@@ -55,7 +55,11 @@ class Player {
       // logger.debug(`layer is at ${data.position} / ${data.duration}; currently ${data.status}`);
       this.cb(infoInSeconds);
       // will output something like: layer is at 2500 / 10000; currently playing
-      if (infoInSeconds.position < this.endTime) return;
+      if (infoInSeconds.position < this.endTime) {
+        logger.debug('startPlayer()',
+          `${this.id}: Updated position ${infoInSeconds.position}. Endtime: ${this.endTime}`);
+        return;
+      }
       if (this.autoRestartStatePlayback) {
         logger.debug('startPlayer()', `${this.id}: Player reached its end time. restarting..`);
         logger.debug('startPlayer()', `${this.id}: Current ${infoInSeconds.position}. End: ${this.endTime}.`);
