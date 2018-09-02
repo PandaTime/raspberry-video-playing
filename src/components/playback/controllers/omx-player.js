@@ -51,7 +51,8 @@ class Player {
         duration: info.duration / MILLISECONDS_IN_SECONDS,
         status: info.status,
       };
-      // logger.debug(`layer is at ${data.position} / ${data.duration}; currently ${data.status}`);
+      logger.debug(this.id,
+        `layer is at ${infoInSeconds.position} / ${infoInSeconds.duration}; currently ${infoInSeconds.status}`);
       this.cb(infoInSeconds);
       // will output something like: layer is at 2500 / 10000; currently playing
       if (infoInSeconds.position < this.endTime) {
@@ -70,20 +71,20 @@ class Player {
   /**
    * @param {*} param0
    */
-  setPlayFrames({ start, end, startPlay }) {
+  setPlayFrames({ start, end, shouldPlay }) {
     logger.debug('setPlayFrames()', `${this.id} Setting start: ${start}; end ${end} times`);
     this.startTime = start;
     this.endTime = end;
 
     // for better ux
-    if (startPlay !== undefined && startPlay === false) {
-      this._setPlayStatus(startPlay);
+    if (shouldPlay !== undefined && shouldPlay === false) {
+      this._setPlayStatus(shouldPlay);
     }
 
     this._setPlayTime(start);
 
-    if (startPlay !== undefined && startPlay === true) {
-      this._setPlayStatus(startPlay);
+    if (shouldPlay !== undefined && shouldPlay === true) {
+      this._setPlayStatus(shouldPlay);
     }
   }
   /**

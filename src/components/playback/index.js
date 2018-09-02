@@ -60,7 +60,7 @@ function updateOmxPlayer() {
       sound.setPlayFrames({
         start: currentStateConfig.SOUND.SOUND_START_TIME,
         end: currentStateConfig.SOUND.SOUND_END_TIME,
-        startPlay: currentStateConfig.SOUND.SHOUND_PLAY,
+        shouldPlay: currentStateConfig.SOUND.SHOUND_PLAY,
       });
     }
   }
