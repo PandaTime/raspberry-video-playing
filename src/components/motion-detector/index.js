@@ -43,7 +43,7 @@ function onAccelerometerData(accelerometers) {
       isActive = true;
     }
     return isActive;
-  }).length;
+  });
   numberOfActiveAccelerometers = activeAccelerometers.filter((v) => v).length;
   logger.debug('number of active accelerometers:', numberOfActiveAccelerometers);
   logger.debug('active accelerometers:', activeAccelerometers);
