@@ -9,16 +9,20 @@ const accelererometerAddress = parseInt(ACCELEROMETER.ACCELEROMETER_PORT, 16);
 const channels = ACCELEROMETER.CHANNELS;
 const channelAccerometers = {};
 let callback;
+let i2c1;
 
-logger.info('Initializing');
-const i2c1 = i2c.openSync(1);
+/** */
+function init() {
+  logger.info('Initializing');
+  i2c1 = i2c.openSync(1);
 
-setInterval(() => {
-  const muxAccelerometersData = channels.map((channel) => {
-    return getAccelerometerData(1 << channel);
-  });
-  callback(muxAccelerometersData);
-}, 500);
+  setInterval(() => {
+    const muxAccelerometersData = channels.map((channel) => {
+      return getAccelerometerData(1 << channel);
+    });
+    callback(muxAccelerometersData);
+  }, 500);
+}
 
 /**
  * @param {Function} cb
@@ -45,5 +49,6 @@ function getAccelerometerData(channel) {
 
 
 module.exports = {
+  init,
   updateCb,
 };

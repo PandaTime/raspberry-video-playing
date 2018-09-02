@@ -1,7 +1,7 @@
 const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('components/index');
 
-// const playback = require('./components/playback');
+const playback = require('./components/playback');
 const motionDetector = require('./components/motion-detector');
 
 /**
@@ -34,21 +34,49 @@ function convertToState(numberOfActiveAccelerometers) {
 }
 
 /**
- */
-function init() {
-  logger.info('Initializing..');
+ * @param {Boolean} isPlayerActive
+*/
+function startMotionDetector(isPlayerActive) {
+  logger.info(`Starting motion detector. Is player is active: ${isPlayerActive}`);
+  motionDetector.init();
   motionDetector.onActiveAccelerometersChange((numberOfActiveAccelerometers) => {
-    logger.info('Number of active accelerometers changed to:', numberOfActiveAccelerometers);
     const state = convertToState(numberOfActiveAccelerometers);
-    //playback.updateState(state);
+    logger.info('Number of active accelerometers changed to:', numberOfActiveAccelerometers, 'State:', state);
+    if (isPlayerActive) {
+      playback.updateState(state);
+    }
   });
-  // motionDetector.listenAccelerometerUpdates((data) => {
-  //   logger.debug('Motion data:', data);
-  // });
-  // motionDetector.listenAccelerometerUpdates((value) => {
-  //   logger.debug('Accelerometer updated to:', value);
-  //   playback.updateState(value);
-  // });
+}
+
+/**
+ * @param {Boolean} debugMode
+*/
+function startPlayer(debugMode) {
+  logger.info(`Starting player.`);
+  if (debugMode) {
+    logger.info('Player debuger is active. Waiting for stdin input');
+    listenForStdit();
+  }
+  playback.init();
+}
+
+/** */
+function listenForStdit() {
+
+}
+
+/**
+ * @param {{activeComponents, debugPlayback}} configuration
+ */
+function init({ activeComponents, debugPlayback }) {
+  logger.info('Initializing..');
+  if (activeComponents.motionDetector) {
+    startMotionDetector(activeComponents.player);
+  }
+
+  if (activeComponents.player) {
+    startPlayer();
+  }
 }
 
 module.exports = {

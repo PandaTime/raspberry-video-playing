@@ -9,9 +9,13 @@ let previousAccelerometerData;
 let numberOfActiveAccelerometers = 0;
 let previouslyActiveAccelerometers = 0;
 
-raspberryController.updateCb(onAccelerometerData);
+/** */
+function init() {
+  raspberryController.init();
+  raspberryController.updateCb(onAccelerometerData);
 
-watchConfigurationFileChange();
+  watchConfigurationFileChange();
+}
 
 /**
  * @param {Array<Object>} accelerometers - for more info see https://github.com/emersion/node-i2c-mpu6050
@@ -88,5 +92,6 @@ function watchConfigurationFileChange() {
 
 
 module.exports = {
+  init,
   onActiveAccelerometersChange,
 };
