@@ -16,7 +16,7 @@ class Player {
     this.isPlaying = true;
     this.cb = function() {};
     this.startTime = 0;
-    this.endTime = Infinity;
+    this.endTime = 5;
     this.autoRestartStatePlayback = autoRestartStatePlayback;
 
     this._onStartStatusCheckInitialized = false;
