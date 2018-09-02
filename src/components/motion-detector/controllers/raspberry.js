@@ -13,6 +13,13 @@ let callback;
 logger.info('Initializing');
 const i2c1 = i2c.openSync(1);
 
+setInterval(() => {
+  const muxAccelerometersData = channels.map((channel) => {
+    return getAccelerometerData(1 << channel);
+  });
+  callback(muxAccelerometersData);
+}, 500);
+
 /**
  * @param {Function} cb
  */
@@ -36,20 +43,7 @@ function getAccelerometerData(channel) {
   return channelAccerometers[channel].readSync();
 }
 
-/**
- * @return {Number} timeoutInterval
-*/
-function listenAccelerometers() {
-  return setInterval(() => {
-    const muxAccelerometersData = channels.map((channel) => {
-      return getAccelerometerData(1 << channel);
-    });
-    callback(muxAccelerometersData);
-  }, 500);
-}
-
 
 module.exports = {
   updateCb,
-  listenAccelerometers,
 };
