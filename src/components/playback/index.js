@@ -13,14 +13,23 @@ let sound;
 /** */
 function init() {
   miioController.connect();
-  video = omxController.openVideoFile(FILE_PATHS.VIDEO_FILE);
+  video = omxController.openVideoFile({
+    filePath: FILE_PATHS.VIDEO_FILE,
+    autoRestart: true,
+  });
   logger.info('Initialized Video:', video.id);
 
-  videoSound = omxController.openSoundFile(FILE_PATHS.VIDEO_SOUND_FILE);
+  videoSound = omxController.openSoundFile({
+    filePath: FILE_PATHS.VIDEO_SOUND_FILE,
+    autoRestart: true,
+  });
   logger.info('Initialized Video Sound:', videoSound.id);
 
   // In fact we need only this cb listener
-  sound = omxController.openSoundFile(FILE_PATHS.SOUND_FILE);
+  sound = omxController.openSoundFile({
+    filePath: FILE_PATHS.SOUND_FILE,
+    autoRestart: false,
+  });
   sound.setUpdatesListener((data) => {
     logger.debug(`layer is at ${data.position} / ${data.duration}; currently ${data.status}`);
     if (!isStatusChangeable && data.position > STATES[currentState].SOUND.SOUND_END_TIME) {
@@ -29,6 +38,7 @@ function init() {
     }
   });
   logger.info('Initialized Sound:', sound.id);
+  updateState(DEFAULT_STATE);
 }
 
 /** */
@@ -36,6 +46,14 @@ function updateOmxPlayer() {
   const currentStateConfig = STATES[currentState];
 
   if (currentStateConfig) {
+    video.setPlayFrames({
+      start: currentStateConfig.VIDEO.VIDEO_START_TIME,
+      end: currentStateConfig.VIDEO.VIDEO_END_TIME,
+    });
+    videoSound.setPlayFrames({
+      start: currentStateConfig.VIDEO.AUDIO_START_TIME,
+      end: currentStateConfig.VIDEO.AUDIO_END_TIME,
+    });
     sound.setPlayStatus(currentStateConfig.SOUND.SHOUND_PLAY);
     if (currentStateConfig.SOUND.SHOUND_PLAY) {
       sound.setPlayTime(currentStateConfig.SOUND.SOUND_START_TIME);
