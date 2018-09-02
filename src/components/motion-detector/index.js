@@ -12,14 +12,7 @@ function listenAccelerometerUpdates(cb) {
   listener = cb;
 }
 
-raspberryController.listenAccelerometers()
-  // .watch((err, value) => {
-  //   if (err) {
-  //     logger.error('Something went wrong with accelerometer response', err);
-  //     throw err;
-  //   }
-  //   listener(value);
-  // });
+raspberryController.listenAccelerometers(listener);
 
 
 module.exports = {

@@ -8,6 +8,9 @@ const motionDetector = require('./components/motion-detector');
  */
 function init() {
   logger.info('Initializing..');
+  motionDetector.listenAccelerometerUpdates((data) => {
+    logger.debug('Motion data:', data);
+  });
   // motionDetector.listenAccelerometerUpdates((value) => {
   //   logger.debug('Accelerometer updated to:', value);
   //   playback.updateState(value);
