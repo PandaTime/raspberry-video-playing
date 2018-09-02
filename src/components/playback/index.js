@@ -56,13 +56,11 @@ function updateOmxPlayer() {
       start: currentStateConfig.VIDEO.AUDIO_START_TIME,
       end: currentStateConfig.VIDEO.AUDIO_END_TIME,
     });
-    if (currentStateConfig.SOUND.SHOUND_PLAY) {
-      sound.setPlayFrames({
-        start: currentStateConfig.SOUND.SOUND_START_TIME,
-        end: currentStateConfig.SOUND.SOUND_END_TIME,
-        shouldPlay: currentStateConfig.SOUND.SHOUND_PLAY,
-      });
-    }
+    sound.setPlayFrames({
+      start: currentStateConfig.SOUND.SOUND_START_TIME,
+      end: currentStateConfig.SOUND.SOUND_END_TIME,
+      shouldPlay: currentStateConfig.SOUND.SHOUND_PLAY,
+    });
   }
 }
 
