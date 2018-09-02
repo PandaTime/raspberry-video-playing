@@ -1,8 +1,9 @@
 const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('motion-detector/index');
 const raspberryController = require('./controllers/raspberry');
+const { ACCELEROMETER } = require(`${appRoot}/config/configuration.json`);
 
-const possibleDelta = 0.1;
+const maxGyroDelta = ACCELEROMETER.MAX_GYRO_DELTA;
 let previousAccelerometerData;
 let activeAccelerometers = 0;
 
@@ -27,9 +28,9 @@ function onAccelerometerData(accelerometers) {
     const gyro = accelerometer.gyro;
     const previousGyro = previousAccelerometerData[i].gyro;
     let isActive = false;
-    if (Math.abs(gyro.x - previousGyro.x) > possibleDelta ||
-      Math.abs(gyro.y - previousGyro.y) > possibleDelta ||
-      Math.abs(gyro.z - previousGyro.z) > possibleDelta
+    if (Math.abs(gyro.x - previousGyro.x) > maxGyroDelta ||
+      Math.abs(gyro.y - previousGyro.y) > maxGyroDelta ||
+      Math.abs(gyro.z - previousGyro.z) > maxGyroDelta
     ) {
       isActive = true;
     }
