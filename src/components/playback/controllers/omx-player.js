@@ -32,6 +32,7 @@ class Player {
     if (status === 'playing' && this.pauseOnStart) {
       this._setPlayStatus(false);
     }
+    this._onStartStatusCheckInitialized = true;
   }
 
   /**
