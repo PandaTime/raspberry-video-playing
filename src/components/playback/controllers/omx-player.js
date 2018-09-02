@@ -48,8 +48,8 @@ class Player {
     });
     this.omxPlayer.onProgress((info) => {
       const infoInSeconds = {
-        position: info.position * MILLISECONDS_IN_SECONDS,
-        duration: info.duration * MILLISECONDS_IN_SECONDS,
+        position: info.position / MILLISECONDS_IN_SECONDS,
+        duration: info.duration / MILLISECONDS_IN_SECONDS,
         status: info.status,
       };
       // logger.debug(`layer is at ${data.position} / ${data.duration}; currently ${data.status}`);
