@@ -61,6 +61,16 @@ function startPlayer(debugMode) {
   playback.init();
 }
 
+/**
+ * @param {*} str - str to seek in
+ * @param {*} search
+ * @param {*} pos
+ * @return {Boolean}
+ */
+function startsWith(str, search, pos) {
+  return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
+}
+
 /** */
 function listenForStdit() {
   const rl = readline.createInterface({
@@ -70,7 +80,7 @@ function listenForStdit() {
   });
 
   rl.on('line', (line) => {
-    if (line.starsWith('setState:')) {
+    if (startsWith('setState:')) {
       const state = line.split('setState:')[1].trim();
       logger.info('State received from stdin:', state);
       playback.updateState(state);
