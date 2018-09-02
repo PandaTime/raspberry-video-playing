@@ -70,7 +70,11 @@ function listenForStdit() {
   });
 
   rl.on('line', (line) => {
-    logger.debug('line');
+    if (line.starsWith('setState:')) {
+      const state = line.split('setState:')[1].trim();
+      logger.info('State received from stdin:', state);
+      playback.updateState(state);
+    }
   });
 }
 
