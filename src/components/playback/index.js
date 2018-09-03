@@ -76,7 +76,10 @@ function updateState(newState) {
   }
 
   if (!isStatusChangeable) {
-    logger.debug('Could not update state - previous state hasnt finished. Updating lastState.');
+    logger.debug(
+      `Could not update state - previous state(${currentState}) hasnt finished.`,
+      `Updating lastState. ${newState}`
+    );
     lastState = newState;
     return;
   }
