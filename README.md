@@ -45,5 +45,6 @@ Each state should contain such fields:
     }
   }
   ```
+- `FIRST_STATUS_CHANGE_DELAY` - Timeout after omxplayer start, after which changes can occur.s
   *Note that first key with matched number of `ACTIVE_ACCELEROMETERS` will be activated.
  

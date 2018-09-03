@@ -1,6 +1,7 @@
 const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('omx-player');
 const Omx = require('omx-layers');
+const { FIRST_STATUS_CHANGE_DELAY } = require(`${appRoot}/config/configuration.json`);
 
 const MILLISECONDS_IN_SECONDS = 1000;
 /** */
@@ -43,7 +44,10 @@ class Player {
     this.omxPlayer.open(filePath);
 
     this.omxPlayer.onStart(() => {
-      this.hasStarted = true;
+      // Even though it should ready for work it's not(Fast writes to omxplayer can cause critical errors)
+      setTimeout(() => {
+        this.hasStarted = true;
+      }, FIRST_STATUS_CHANGE_DELAY);
       logger.info('startPlayer()', this.id, 'Player has started');
     });
     this.omxPlayer.onProgress((info) => {

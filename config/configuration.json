@@ -11,7 +11,7 @@
   "ACCELEROMETER": {
     "ACCELEROMETER_PORT": "0x68",
     "MUX_PORT": "0x70",
-    "CHANNELS": [0, 1],
+    "CHANNELS": [0],
     "GYRO_DELTA": 5.0,
     "ROTATION_DELTA": 5.0
   },
@@ -55,6 +55,7 @@
         "SHOULD_WORK": false
       }
     }
-  }
+  },
+  "FIRST_STATUS_CHANGE_DELAY": 5000
 } 
  
