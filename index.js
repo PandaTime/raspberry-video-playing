@@ -33,7 +33,7 @@ function getEnvConfiguration() {
 function init() {
   const envConfiguration = getEnvConfiguration();
   logger.info('Environment:', envConfiguration);
-  logger.info('Configuration:', configuration);
+  logger.info('Configuration:', JSON.stringify(configuration));
   require('./src/index').init(envConfiguration);
 }
 
