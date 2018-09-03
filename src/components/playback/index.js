@@ -87,11 +87,11 @@ function updateState(newState) {
   updateStatus(currentState === DEFAULT_STATE);
 
   updateOmxPlayer();
-  if (stateConf.WEB_SOCKET) {
-    miioController.updatePowerSocket(stateConf.WEB_SOCKET.SHOULD_WORK);
+  if (stateConf.POWER_SOCKET) {
+    miioController.updatePowerSocket(stateConf.POWER_SOCKET.SHOULD_WORK);
   } else {
-    logger.error(`Could not update power socker: "stateConf.WEB_SOCKET" is ${typeof stateConf.WEB_SOCKET};`,
-      stateConf.WEB_SOCKET);
+    logger.error(`Could not update power socker: "stateConf.POWER_SOCKET" is ${typeof stateConf.POWER_SOCKET};`,
+      stateConf.POWER_SOCKET);
   }
 }
 

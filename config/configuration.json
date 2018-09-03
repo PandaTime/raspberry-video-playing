@@ -34,7 +34,7 @@
         "SOUND_START_TIME": 0,
         "SOUND_END_TIME": 5
       },
-      "WEB_SOCKET": {
+      "POWER_SOCKET": {
         "SHOULD_WORK": false
       }
     },

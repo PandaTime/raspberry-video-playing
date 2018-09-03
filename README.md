@@ -40,7 +40,7 @@ Each state should contain such fields:
       "SOUND_START_TIME": Number,
       "SOUND_END_TIME": Number
     },
-    "WEB_SOCKET": {
+    "POWER_SOCKET": {
       "SHOULD_WORK": Boolean
     }
   }
