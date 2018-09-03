@@ -9,7 +9,7 @@ function getOptions() {
       level: LOG_LEVEL.FILE,
       filename: `${appRoot}/logs/app.log`,
       handleExceptions: true,
-      json: true,
+      json: false,
       maxsize: 5242880, // 5MB
       maxFiles: 5,
       colorize: false,
