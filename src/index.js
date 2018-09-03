@@ -7,16 +7,18 @@ const { STATES, DEFAULT_STATE } = require(`${appRoot}/config/configuration.json`
 const playback = require('./components/playback');
 const motionDetector = require('./components/motion-detector');
 const accelerometersToState = getAccelerometersToStateMatch();
-
 /**
  * @return {Object} - with key to state matcher, e.g. { 0: "DEFAULT_STATE"  }
 */
 function getAccelerometersToStateMatch() {
   const statesMatcher = {};
   Object.keys(STATES).forEach((stateName) => {
-    if (statesMatcher.hasOwnProperty(stateName)) {
+    if (!statesMatcher.hasOwnProperty(stateName)) {
       const accelerometersNumber = STATES[stateName].ACTIVE_ACCELEROMETERS;
       statesMatcher[accelerometersNumber] = stateName;
+    } else {
+      logger.warn('getAccelerometersToStateMatch()', 'Could not register state:', stateName);
+      logger.warn('getAccelerometersToStateMatch()', 'statesMatcher', statesMatcher);
     }
   });
   return statesMatcher;
