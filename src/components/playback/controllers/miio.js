@@ -32,6 +32,11 @@ function connect(host, token) {
  * @param  {Boolean} newPowerStatus
  */
 function updatePowerSocket(newPowerStatus) {
+  logger.debug('updatePowerSocket()', newPowerStatus);
+  if (typeof newPowerStatus !== 'boolean') {
+    logger.warn('Could not update power socket. Expected type: boolean, suplied:', typeof newPowerStatus);
+    return;
+  }
   if (!miioDevice.device) {
     logger.error('Could not update power: not connected to miio power socket');
     return;
