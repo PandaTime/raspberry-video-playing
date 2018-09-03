@@ -2,35 +2,37 @@ const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('components/index');
 const readline = require('readline');
 
+const { STATES, DEFAULT_STATE } = require(`${appRoot}/config/configuration.json`);
+
 const playback = require('./components/playback');
 const motionDetector = require('./components/motion-detector');
+const accelerometersToState = getAccelerometersToStateMatch();
+
+/**
+ * @return {Object} - with key to state matcher, e.g. { 0: "DEFAULT_STATE"  }
+*/
+function getAccelerometersToStateMatch() {
+  const statesMatcher = {};
+  Object.keys(STATES).forEach((stateName) => {
+    if (statesMatcher.hasOwnProperty(stateName)) {
+      const accelerometersNumber = STATES[stateName].ACTIVE_ACCELEROMETERS;
+      statesMatcher[accelerometersNumber] = stateName;
+    }
+  });
+  return statesMatcher;
+}
 
 /**
  * @param {Number} numberOfActiveAccelerometers
  * @return {String} state
  */
 function convertToState(numberOfActiveAccelerometers) {
-  let state;
-  switch (numberOfActiveAccelerometers) {
-  case 1:
-    state = 'STATE_1';
-    break;
-  case 2:
-    state = 'STATE_2';
-    break;
-  case 3:
-    state = 'STATE_3';
-    break;
-  case 4:
-    state = 'STATE_4';
-    break;
-  case 5:
-    state = 'STATE_5';
-    break;
-  default:
-    state = 'DEFAULT';
-    break;
+  let state = accelerometersToState[numberOfActiveAccelerometers];
+
+  if (!state) {
+    state = DEFAULT_STATE;
   }
+
   return state;
 }
 

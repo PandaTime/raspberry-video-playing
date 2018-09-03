@@ -22,6 +22,7 @@
   },
   "STATES": {
     "DEFAULT": {
+      "ACTIVE_ACCELEROMETERS": 0,
       "VIDEO": {
         "VIDEO_START_TIME": 0,
         "VIDEO_END_TIME": 5,
@@ -38,6 +39,7 @@
       }
     },
     "STATE_1": {
+      "ACTIVE_ACCELEROMETERS": 1,
       "VIDEO": {
         "VIDEO_START_TIME": 6,
         "VIDEO_END_TIME": 10,
