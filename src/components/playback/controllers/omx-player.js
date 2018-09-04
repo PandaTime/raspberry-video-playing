@@ -7,14 +7,16 @@ const MILLISECONDS_IN_SECONDS = 1000;
 /** */
 class Player {
   /**
-   * @param {Boolean} autoRestartStatePlayback - whether we should restart STATE play, when reaching state's end time
+   * @param {Boolean} autoRestartStatePlayback - whether we should restart STATE play, when reaching state's end tim
+   * @param {String} name
   */
-  constructor(autoRestartStatePlayback) {
+  constructor(autoRestartStatePlayback, name) {
     this.id = (new Date()).getTime();
     logger.debug(`initializing ${this.id}..`);
     logger.debug(`${this.id} autoRestartStatePlayback:`, autoRestartStatePlayback);
     this.hasStarted = false;
     this.isPlaying = true;
+    this.name = name;
     this.cb = function() {};
     this.startTime = 0;
     this.endTime = 5;
@@ -69,7 +71,7 @@ class Player {
         return;
       }
       if (this.autoRestartStatePlayback) {
-        logger.debug('startPlayer()', `${this.id}: Player reached its end time. restarting..`);
+        info.debug('startPlayer()', `${this.id}: Player reached its end time. restarting..`);
         logger.debug('startPlayer()', `${this.id}: Current ${infoInSeconds.position}. End: ${this.endTime}.`);
         this._setPlayTime(this.startTime);
       }
@@ -80,11 +82,11 @@ class Player {
    * @param {*} param0
    */
   setPlayFrames({ start, end, shouldPlay }) {
-    logger.debug('setPlayFrames()', `${this.id} Setting start: ${start}; end ${end} times`);
+    logger.info('setPlayFrames()', `${this.name} - ${this.id} Setting start: ${start}; end ${end}`);
     this.startTime = start;
     this.endTime = end;
 
-    // for better ux
+    // for better UX
     if (shouldPlay !== undefined && shouldPlay === false) {
       this._setPlayStatus(shouldPlay);
     }
@@ -145,25 +147,25 @@ class Player {
 
 /**
  * Opening sound file in loop and stopping it immediately
- * @param {{filePath, autoRestart}} filePath
+ * @param {{filePath, autoRestart, layer, name}} filePath
  * @return {OmxPlayer}
  */
-function openVideoFile({ filePath, autoRestart }) {
-  const player = new Player(autoRestart);
+function openVideoFile({ filePath, autoRestart, name }) {
+  const player = new Player(autoRestart, name);
   player.startPlayer(filePath, {
     audioOutput: 'hdmi',
     layer: 2,
-  });
+  }, name);
   return player;
 }
 
 /**
  * Opening sound file in loop and stopping it immediately
- * @param  {{filePath, autoRestart}} filePath
+ * @param  {{filePath, autoRestart, layer, name}} filePath
  * @return {OmxPlayer}
  */
-function openSoundFile({ filePath, autoRestart, layer }) {
-  const player = new Player(autoRestart);
+function openSoundFile({ filePath, autoRestart, layer, name }) {
+  const player = new Player(autoRestart, name);
   player.startPlayer(filePath, {
     audioOutput: 'local',
     layer,

@@ -17,6 +17,7 @@ function init() {
   video = omxController.openVideoFile({
     filePath: FILE_PATHS.VIDEO_FILE,
     autoRestart: true,
+    name: 'Video Video',
   });
   logger.info('Initialized Video:', video.id);
 
@@ -24,6 +25,7 @@ function init() {
     filePath: FILE_PATHS.VIDEO_SOUND_FILE,
     autoRestart: true,
     layer: 1,
+    name: 'Video Sound',
   });
   logger.info('Initialized Video Sound:', videoSound.id);
 
@@ -32,6 +34,7 @@ function init() {
     filePath: FILE_PATHS.SOUND_FILE,
     autoRestart: false,
     layer: 0,
+    name: 'Sound Sound',
   });
   sound.setUpdatesListener((data) => {
     logger.debug(`layer is at ${data.position} / ${data.duration}; currently ${data.status}`);
@@ -77,10 +80,9 @@ function updateState(newState) {
 
   if (!isStatusChangeable) {
     logger.debug(
-      `Could not update state - previous state(${currentState}) hasnt finished.`,
-      `Updating lastState. ${newState}`
-    );
+      `Could not update state - previous state(${currentState}) hasnt finished.`);
     lastState = newState;
+    logger.info(`Accelerometers state updated: ${lastState} -> ${newState}`);
     return;
   }
 
