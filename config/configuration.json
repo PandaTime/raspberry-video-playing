@@ -5,13 +5,19 @@
   },
   "DEFAULT_STATE": "DEFAULT",
   "MIIO": {
-    "HOST": "",
-    "TOKEN": ""
+    "HOST": "192.168.1.158",
+    "TOKEN": "a681b03c65fb41135b953662d2e5188d"
   },
   "ACCELEROMETER": {
     "ACCELEROMETER_PORT": "0x68",
     "MUX_PORT": "0x70",
-    "CHANNELS": [0],
+    "CHANNELS": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
     "GYRO_DELTA": 5.0,
     "ROTATION_DELTA": 5.0
   },
@@ -52,10 +58,77 @@
         "SOUND_END_TIME": 7
       },
       "POWER_SOCKET": {
+        "SHOULD_WORK": true
+      }
+    },
+    "STATE_2": {
+      "ACTIVE_ACCELEROMETERS": 2,
+      "VIDEO": {
+        "VIDEO_START_TIME": 6,
+        "VIDEO_END_TIME": 10,
+        "AUDIO_START_TIME": 6,
+        "AUDIO_END_TIME": 10
+      },
+      "SOUND": {
+        "SHOUND_PLAY": true,
+        "SOUND_START_TIME": 0,
+        "SOUND_END_TIME": 7
+      },
+      "POWER_SOCKET": {
         "SHOULD_WORK": false
+      }
+    },
+    "STATE_3": {
+      "ACTIVE_ACCELEROMETERS": 3,
+      "VIDEO": {
+        "VIDEO_START_TIME": 6,
+        "VIDEO_END_TIME": 10,
+        "AUDIO_START_TIME": 6,
+        "AUDIO_END_TIME": 10
+      },
+      "SOUND": {
+        "SHOUND_PLAY": true,
+        "SOUND_START_TIME": 0,
+        "SOUND_END_TIME": 7
+      },
+      "POWER_SOCKET": {
+        "SHOULD_WORK": true
+      }
+    },
+    "STATE_4": {
+      "ACTIVE_ACCELEROMETERS": 4,
+      "VIDEO": {
+        "VIDEO_START_TIME": 6,
+        "VIDEO_END_TIME": 10,
+        "AUDIO_START_TIME": 6,
+        "AUDIO_END_TIME": 10
+      },
+      "SOUND": {
+        "SHOUND_PLAY": true,
+        "SOUND_START_TIME": 0,
+        "SOUND_END_TIME": 7
+      },
+      "POWER_SOCKET": {
+        "SHOULD_WORK": true
+      }
+    },
+    "STATE_5": {
+      "ACTIVE_ACCELEROMETERS": 5,
+      "VIDEO": {
+        "VIDEO_START_TIME": 6,
+        "VIDEO_END_TIME": 10,
+        "AUDIO_START_TIME": 6,
+        "AUDIO_END_TIME": 10
+      },
+      "SOUND": {
+        "SHOUND_PLAY": true,
+        "SOUND_START_TIME": 0,
+        "SOUND_END_TIME": 7
+      },
+      "POWER_SOCKET": {
+        "SHOULD_WORK": true
       }
     }
   },
   "FIRST_STATUS_CHANGE_DELAY": 5000
-} 
- 
+}
