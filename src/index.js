@@ -2,7 +2,7 @@ const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('components/index');
 const readline = require('readline');
 
-const { STATES, DEFAULT_STATE } = require(`${appRoot}/config/configuration.json`);
+const { STATES, DEFAULT_STATE, RANDOM_STATE } = require(`${appRoot}/config/configuration.json`);
 
 const playback = require('./components/playback');
 const motionDetector = require('./components/motion-detector');
@@ -86,6 +86,12 @@ function listenForStdit() {
  * @param {{activeComponents, debugPlayback}} configuration
  */
 function init({ activeComponents, debugPlayback }) {
+  if (RANDOM_STATE.ACTIVE === true) {
+    logger.warn('------------------------------');
+    logger.warn('--- RANDOM_STATE IS ACTIVE ---');
+    logger.warn(`--- TRIGGER CHANGE: ${RANDOM_STATE.CHANGE_TO_ACTIVATE_ACCELEROMETER}  ---`);
+    logger.warn('------------------------------');
+  }
   logger.info('Initializing..');
   if (activeComponents.MOTION_DETECTOR) {
     startMotionDetector(activeComponents.PLAYBACK);

@@ -1,4 +1,8 @@
 {
+  "RANDOM_STATE": {
+    "ACTIVE": true,
+    "CHANGE_TO_ACTIVATE_ACCELEROMETER": 0.1
+  },
   "LOG_LEVEL": {
     "CONSOLE": "info",
     "FILE": "debug"

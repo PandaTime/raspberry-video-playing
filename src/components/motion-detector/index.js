@@ -2,7 +2,7 @@ const fs = require('fs');
 const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('motion-detector/index');
 const raspberryController = require('./controllers/raspberry');
-const { ACCELEROMETER } = require(`${appRoot}/config/configuration.json`);
+const { ACCELEROMETER, RANDOM_STATE } = require(`${appRoot}/config/configuration.json`);
 
 let gyroDelta = ACCELEROMETER.GYRO_DELTA;
 let rotationDelta = ACCELEROMETER.ROTATION_DELTA;
@@ -10,11 +10,17 @@ let previousAccelerometerData = [];
 let numberOfActiveAccelerometers = 0;
 let hasNumberChanged = false;
 
+const CHANGE_TO_ACTIVATE_ACCELEROMETER = isNaN(RANDOM_STATE.CHANGE_TO_ACTIVATE_ACCELEROMETER) ?
+  0 : RANDOM_STATE.CHANGE_TO_ACTIVATE_ACCELEROMETER;
+
+
 /** */
 function init() {
   raspberryController.init();
   raspberryController.updateCb(onAccelerometerData);
-
+  if (RANDOM_STATE.ACTIVE) {
+    logger.warn('CHANGE_TO_ACTIVATE_ACCELEROMETER:', CHANGE_TO_ACTIVATE_ACCELEROMETER);
+  }
   watchConfigurationFileChange();
 }
 
@@ -39,7 +45,10 @@ function onAccelerometerData(accelerometers) {
     const previousGyro = previousAccelerometerData[i].gyro;
     const previousRotation = previousAccelerometerData[i].rotation;
     let isActive = false;
-    if (
+    if (RANDOM_STATE.ACTIVE === true && Math.random() < CHANGE_TO_ACTIVATE_ACCELEROMETER) {
+      logger.debug('RANDOM_STATE triggered accelerometer:', i);
+      isActive = true;
+    } else if (
       Math.abs(gyro.x - previousGyro.x) > gyroDelta ||
       Math.abs(gyro.y - previousGyro.y) > gyroDelta ||
       Math.abs(gyro.z - previousGyro.z) > gyroDelta

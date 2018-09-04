@@ -7,6 +7,9 @@ Possible values: <br>
 
 ## Configuration
 You can set configuration in `config/configuration.json
+- `RANDOM_STATE` - USE ONLY FOR TESTING - will trigger random state changes
+  - `ACTIVE`(default: false) if "true" will activate
+  - `CHANGE_TO_ACTIVATE_ACCELEROMETER(default: 0) - chance to active accelerometer
 - `LOG_LEVEL` - Logging level, for options see https://github.com/winstonjs/winston#logging 
   - `CONSOLE` - Console logging level
   - `FILE` - Console logging level (saved in logs/app.json)
