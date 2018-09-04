@@ -2,14 +2,21 @@ const appRoot = require('app-root-path');
 const logger = require(`${appRoot}/utils/logger`)('miio');
 const miio = require('miio');
 
-let miioDevice = {};
+let miioDevice = {
+  power: false,
+};
 
 /**
  * @param {String} host
  * @param {String} token
+ * @param {Boolean} reconnect
  */
-function connect(host, token) {
-  logger.info(`Connecting to miio. Host:${host}; Token:${token}`);
+function connect(host, token, reconnect = 0) {
+  if (!reconnect) {
+    logger.info(`Connecting to miio. Host:${host}; Token:${token}`);
+  } else {
+    logger.warn(`Reconnecting ${reconnect} to miio. Host:${host}; Token:${token}`);
+  }
   if (!host) {
     logger.error('miio host not passed');
     return;
@@ -20,12 +27,12 @@ function connect(host, token) {
   }
   miio.device({ address: host, token })
     .then((device) => {
-      setMiioDevice(device);
+      miioDevice.device = device;
       logger.info('Connected to', device);
     })
     .catch((err) => {
       logger.error('Wasnt able to connect to miio:', err);
-      throw err;
+      connect(host, token, ++reconnect);
     });
 }
 /**
@@ -47,25 +54,16 @@ function updatePowerSocket(newPowerStatus) {
     return;
   }
 
-  miioDevice.device.setPower(newPowerStatus)
-    .then(() => logger.debug('Updated power status to:', newPowerStatus))
+  logger.debug('updatePowerSocket()', 'setPower()', newPowerStatus);
+
+  miioDevice.device.call('set_power', [newPowerStatus ? 'on' : 'off'])
+    .then(() => {
+      logger.debug('Updated power status to:', newPowerStatus);
+      miioDevice.power = newPowerStatus;
+    })
     .catch((err) => logger.error('Wasnt able to update power status:', err));
+  // miioDevice.device.setPower(newPowerStatus)
 }
-
-/**
- * @param  {Miio<Device>} device
- */
-function setMiioDevice(device) {
-  miioDevice = {
-    device,
-    power: false,
-  };
-  device.on('power', (power) => {
-    logger.debug('Power changed to:', power);
-    miioDevice.power = power;
-  });
-}
-
 
 module.exports = {
   connect,
