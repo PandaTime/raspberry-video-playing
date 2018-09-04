@@ -1,6 +1,6 @@
 {
   "RANDOM_STATE": {
-    "ACTIVE": true,
+    "ACTIVE": false,
     "CHANGE_TO_ACTIVATE_ACCELEROMETER": 0.1
   },
   "LOG_LEVEL": {
