@@ -24,7 +24,7 @@ function init() {
   videoSound = omxController.openSoundFile({
     filePath: FILE_PATHS.VIDEO_SOUND_FILE,
     autoRestart: true,
-    layer: 1,
+    layer: 4,
     name: 'Video Sound',
   });
   logger.info('Initialized Video Sound:', videoSound.id);
