@@ -42,7 +42,7 @@
       "SOUND": {
         "SHOUND_PLAY": false,
         "SOUND_START_TIME": 0,
-        "SOUND_END_TIME": 2
+        "SOUND_END_TIME": 10
       },
       "POWER_SOCKET": {
         "SHOULD_WORK": false
@@ -58,8 +58,8 @@
       },
       "SOUND": {
         "SHOUND_PLAY": true,
-        "SOUND_START_TIME": 0,
-        "SOUND_END_TIME": 2
+        "SOUND_START_TIME": 11,
+        "SOUND_END_TIME": 21
       },
       "POWER_SOCKET": {
         "SHOULD_WORK": false
@@ -74,9 +74,9 @@
         "AUDIO_END_TIME": 349
       },
       "SOUND": {
-        "SHOUND_PLAY": false,
-        "SOUND_START_TIME": 0,
-        "SOUND_END_TIME": 2
+        "SHOUND_PLAY": true,
+        "SOUND_START_TIME": 22,
+        "SOUND_END_TIME": 33
       },
       "POWER_SOCKET": {
         "SHOULD_WORK": false
@@ -91,9 +91,9 @@
         "AUDIO_END_TIME": 440
       },
       "SOUND": {
-        "SHOUND_PLAY": false,
-        "SOUND_START_TIME": 0,
-        "SOUND_END_TIME": 2
+        "SHOUND_PLAY": true,
+        "SOUND_START_TIME": 34,
+        "SOUND_END_TIME": 45
       },
       "POWER_SOCKET": {
         "SHOULD_WORK": false
@@ -108,9 +108,9 @@
         "AUDIO_END_TIME": 532
       },
       "SOUND": {
-        "SHOUND_PLAY": false,
-        "SOUND_START_TIME": 0,
-        "SOUND_END_TIME": 2
+        "SHOUND_PLAY": true,
+        "SOUND_START_TIME": 46,
+        "SOUND_END_TIME": 57
       },
       "POWER_SOCKET": {
         "SHOULD_WORK": false
@@ -125,9 +125,9 @@
         "AUDIO_END_TIME": 597
       },
       "SOUND": {
-        "SHOUND_PLAY": false,
-        "SOUND_START_TIME": 0,
-        "SOUND_END_TIME": 2
+        "SHOUND_PLAY": true,
+        "SOUND_START_TIME": 58,
+        "SOUND_END_TIME": 69
       },
       "POWER_SOCKET": {
         "SHOULD_WORK": true
