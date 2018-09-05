@@ -18,14 +18,17 @@ function init() {
     filePath: FILE_PATHS.VIDEO_FILE,
     autoRestart: true,
     name: 'Video Video',
+    layer: 5,
+    output: 'hdmi',
   });
   logger.info('Initialized Video:', video.id);
 
   videoSound = omxController.openSoundFile({
     filePath: FILE_PATHS.VIDEO_SOUND_FILE,
     autoRestart: true,
-    layer: 4,
+    layer: 2,
     name: 'Video Sound',
+    output: 'local',
   });
   logger.info('Initialized Video Sound:', videoSound.id);
 
@@ -34,6 +37,7 @@ function init() {
     autoRestart: false,
     layer: 1,
     name: 'Sound Sound',
+    output: 'local',
   });
   sound.setUpdatesListener((data) => {
     logger.debug(`layer is at ${data.position} / ${data.duration}; currently ${data.status}`);

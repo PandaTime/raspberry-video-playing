@@ -147,27 +147,27 @@ class Player {
 
 /**
  * Opening sound file in loop and stopping it immediately
- * @param {{filePath, autoRestart, layer, name}} filePath
+ * @param {{filePath, autoRestart, layer, name, output}} filePath
  * @return {OmxPlayer}
  */
-function openVideoFile({ filePath, autoRestart, name }) {
+function openVideoFile({ filePath, autoRestart, name, layer, output }) {
   const player = new Player(autoRestart, name);
   player.startPlayer(filePath, {
-    audioOutput: 'hdmi',
-    layer: 2,
+    audioOutput: output,
+    layer,
   }, name);
   return player;
 }
 
 /**
  * Opening sound file in loop and stopping it immediately
- * @param  {{filePath, autoRestart, layer, name}} filePath
+ * @param  {{filePath, autoRestart, layer, name, output}} filePath
  * @return {OmxPlayer}
  */
-function openSoundFile({ filePath, autoRestart, layer, name }) {
+function openSoundFile({ filePath, autoRestart, layer, name, output }) {
   const player = new Player(autoRestart, name);
   player.startPlayer(filePath, {
-    audioOutput: 'hdmi',
+    audioOutput: output,
     layer,
   });
   return player;
