@@ -28,9 +28,8 @@ class Player {
 
   /** */
   playerStarted() {
-    if (this.hasStarted) return;
     logger.info('startPlayer()', this.id, 'Started after timeout');
-    this.hasStarted = true;
+    this.hasStarted = false;
   }
   /**
    * @param {String} filePath
@@ -53,14 +52,13 @@ class Player {
 
     this.omxPlayer.onStart(() => {
       // Even though it should ready for work it's not(Fast writes to omxplayer can cause critical errors)
-      // setTimeout(() => {
-      //   this.hasStarted = true;
-      //   logger.info('startPlayer()', this.id, 'Started after timeout');
-      // }, FIRST_STATUS_CHANGE_DELAY);
+      setTimeout(() => {
+        this.hasStarted = true;
+        logger.info('startPlayer()', this.id, 'Started after timeout');
+      }, FIRST_STATUS_CHANGE_DELAY);
       logger.info('startPlayer()', this.id, 'Player has started. Waiting for:', FIRST_STATUS_CHANGE_DELAY);
     });
     this.omxPlayer.onProgress((info) => {
-      this.playerStarted();
       const infoInSeconds = {
         position: info.position / MILLISECONDS_IN_SECONDS,
         duration: info.duration / MILLISECONDS_IN_SECONDS,
@@ -89,8 +87,8 @@ class Player {
    * @param {*} param0
    */
   setPlayFrames({ start, end, shouldPlay }) {
+    logger.warn('setPlayFrames()', this.id, 'Could not setPlaytime: omx-player hasnt started yet');
     if (!this.hasStarted) {
-      logger.warn('setPlayFrames()', this.id, 'Could not setPlaytime: omx-player hasnt started yet');
       return;
     }
     logger.info('setPlayFrames()', `${this.name} - ${this.id} Setting start: ${start}; end ${end}`);
