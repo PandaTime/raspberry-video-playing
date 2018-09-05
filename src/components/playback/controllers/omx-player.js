@@ -117,9 +117,9 @@ class Player {
     logger.debug('setPlayStatus()', this.id, 'Updating "isPlayed" status to:', shouldPlay);
     this.isPlaying = shouldPlay;
     if (shouldPlay) {
-      this.omxPlayer.resume();
+      this.omxPlayer.resume(0.999);
     } else {
-      this.omxPlayer.pause();
+      this.omxPlayer.setVolume(0.001);
     }
   }
 
