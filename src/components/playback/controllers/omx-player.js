@@ -53,14 +53,13 @@ class Player {
 
     this.omxPlayer.onStart(() => {
       // Even though it should ready for work it's not(Fast writes to omxplayer can cause critical errors)
-      // setTimeout(() => {
-      //   this.hasStarted = true;
-      //   logger.info('startPlayer()', this.id, 'Started after timeout');
-      // }, FIRST_STATUS_CHANGE_DELAY);
+      setTimeout(() => {
+        this.hasStarted = true;
+        logger.info('startPlayer()', this.id, 'Started after timeout');
+      }, FIRST_STATUS_CHANGE_DELAY);
       logger.info('startPlayer()', this.id, 'Player has started. Waiting for:', FIRST_STATUS_CHANGE_DELAY);
     });
     this.omxPlayer.onProgress((info) => {
-      this.playerStarted();
       const infoInSeconds = {
         position: info.position / MILLISECONDS_IN_SECONDS,
         duration: info.duration / MILLISECONDS_IN_SECONDS,
