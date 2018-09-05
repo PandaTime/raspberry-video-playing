@@ -167,7 +167,7 @@ function openVideoFile({ filePath, autoRestart, name }) {
 function openSoundFile({ filePath, autoRestart, layer, name }) {
   const player = new Player(autoRestart, name);
   player.startPlayer(filePath, {
-    audioOutput: 'local',
+    audioOutput: 'hdmi',
     layer,
   });
   return player;
