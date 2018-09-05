@@ -68,8 +68,8 @@
     "STATE_2": {
       "ACTIVE_ACCELEROMETERS": 2,
       "VIDEO": {
-        "VIDEO_START_TIME": 19,
-        "VIDEO_END_TIME": 35,
+        "VIDEO_START_TIME": 37,
+        "VIDEO_END_TIME": 55,
         "AUDIO_START_TIME": 257,
         "AUDIO_END_TIME": 349
       },
@@ -85,8 +85,8 @@
     "STATE_3": {
       "ACTIVE_ACCELEROMETERS": 3,
       "VIDEO": {
-        "VIDEO_START_TIME": 19,
-        "VIDEO_END_TIME": 35,
+        "VIDEO_START_TIME": 56,
+        "VIDEO_END_TIME": 74,
         "AUDIO_START_TIME": 349,
         "AUDIO_END_TIME": 440
       },
@@ -102,8 +102,8 @@
     "STATE_4": {
       "ACTIVE_ACCELEROMETERS": 4,
       "VIDEO": {
-        "VIDEO_START_TIME": 19,
-        "VIDEO_END_TIME": 35,
+        "VIDEO_START_TIME": 75,
+        "VIDEO_END_TIME": 93,
         "AUDIO_START_TIME": 440,
         "AUDIO_END_TIME": 532
       },
@@ -119,8 +119,8 @@
     "STATE_5": {
       "ACTIVE_ACCELEROMETERS": 5,
       "VIDEO": {
-        "VIDEO_START_TIME": 19,
-        "VIDEO_END_TIME": 35,
+        "VIDEO_START_TIME": 94,
+        "VIDEO_END_TIME": 112,
         "AUDIO_START_TIME": 532,
         "AUDIO_END_TIME": 597
       },
