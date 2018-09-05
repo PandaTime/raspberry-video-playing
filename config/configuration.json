@@ -22,8 +22,9 @@
       4,
       5
     ],
-    "GYRO_DELTA": 15.0,
-    "ROTATION_DELTA": 15.0
+    "GYRO_DELTA": 5.0,
+    "ROTATION_DELTA": 5.0,
+    "ACCELEROMETER_DELTA": 1
   },
   "FILE_PATHS": {
     "VIDEO_FILE": "/home/pi/Videos/openness.mp4",

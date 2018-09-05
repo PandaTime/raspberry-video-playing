@@ -5,6 +5,7 @@ const raspberryController = require('./controllers/raspberry');
 const { ACCELEROMETER, RANDOM_STATE } = require(`${appRoot}/config/configuration.json`);
 
 let gyroDelta = ACCELEROMETER.GYRO_DELTA;
+let accelDelta = ACCELEROMETER.ACCELEROMETER_DELTA;
 let rotationDelta = ACCELEROMETER.ROTATION_DELTA;
 let previousAccelerometerData = [];
 let numberOfActiveAccelerometers = 0;
@@ -42,11 +43,20 @@ function onAccelerometerData(accelerometers) {
   const activeAccelerometers = accelerometers.map((accelerometer, i) => {
     const gyro = accelerometer.gyro;
     const rotation = accelerometer.rotation;
+    const accel = accelerometer.accel;
     const previousGyro = previousAccelerometerData[i].gyro;
+    const previousAccel = previousAccelerometerData[i].accel;
     const previousRotation = previousAccelerometerData[i].rotation;
     let isActive = false;
     if (RANDOM_STATE.ACTIVE === true && Math.random() < CHANGE_TO_ACTIVATE_ACCELEROMETER) {
       logger.debug('RANDOM_STATE triggered accelerometer:', i);
+      isActive = true;
+    } else if (
+      Math.abs(accel.x - previousAccel.x) > accelDelta ||
+      Math.abs(accel.y - previousAccel.y) > accelDelta ||
+      Math.abs(accel.z - previousAccel.z) > accelDelta
+    ) {
+      logger.debug('accel active:', i);
       isActive = true;
     } else if (
       Math.abs(gyro.x - previousGyro.x) > gyroDelta ||
