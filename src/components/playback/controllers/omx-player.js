@@ -88,8 +88,8 @@ class Player {
    * @param {*} param0
    */
   setPlayFrames({ start, end, shouldPlay }) {
-    logger.warn('setPlayFrames()', this.id, 'Could not setPlaytime: omx-player hasnt started yet');
     if (!this.hasStarted) {
+      logger.warn('setPlayFrames()', this.id, 'Could not setPlaytime: omx-player hasnt started yet');
       return;
     }
     logger.info('setPlayFrames()', `${this.name} - ${this.id} Setting start: ${start}; end ${end}`);
