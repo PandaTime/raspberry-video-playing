@@ -42,7 +42,7 @@
       "SOUND": {
         "SHOUND_PLAY": false,
         "SOUND_START_TIME": 0,
-        "SOUND_END_TIME": 10
+        "SOUND_END_TIME": 8
       },
       "POWER_SOCKET": {
         "SHOULD_WORK": false
@@ -75,8 +75,8 @@
       },
       "SOUND": {
         "SHOUND_PLAY": true,
-        "SOUND_START_TIME": 3,
-        "SOUND_END_TIME": 5
+        "SOUND_START_TIME": 2,
+        "SOUND_END_TIME": 4
       },
       "POWER_SOCKET": {
         "SHOULD_WORK": false
@@ -92,8 +92,8 @@
       },
       "SOUND": {
         "SHOUND_PLAY": true,
-        "SOUND_START_TIME": 6,
-        "SOUND_END_TIME": 8
+        "SOUND_START_TIME": 4,
+        "SOUND_END_TIME": 6
       },
       "POWER_SOCKET": {
         "SHOULD_WORK": false
@@ -109,8 +109,8 @@
       },
       "SOUND": {
         "SHOUND_PLAY": true,
-        "SOUND_START_TIME": 9,
-        "SOUND_END_TIME": 11
+        "SOUND_START_TIME": 6,
+        "SOUND_END_TIME": 8
       },
       "POWER_SOCKET": {
         "SHOULD_WORK": false
@@ -126,8 +126,8 @@
       },
       "SOUND": {
         "SHOUND_PLAY": true,
-        "SOUND_START_TIME": 12,
-        "SOUND_END_TIME": 14
+        "SOUND_START_TIME": 8,
+        "SOUND_END_TIME": 9
       },
       "POWER_SOCKET": {
         "SHOULD_WORK": true
