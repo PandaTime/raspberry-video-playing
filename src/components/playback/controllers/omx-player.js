@@ -87,8 +87,8 @@ class Player {
    * @param {*} param0
    */
   setPlayFrames({ start, end, shouldPlay }) {
-    logger.warn('setPlayFrames()', this.id, 'Could not setPlaytime: omx-player hasnt started yet');
     if (!this.hasStarted) {
+      logger.warn('setPlayFrames()', this.id, 'Could not setPlaytime: omx-player hasnt started yet');
       return;
     }
     logger.info('setPlayFrames()', `${this.name} - ${this.id} Setting start: ${start}; end ${end}`);
@@ -126,7 +126,7 @@ class Player {
     logger.debug('setPlayStatus()', this.id, 'Updating "isPlayed" status to:', shouldPlay);
     this.isPlaying = shouldPlay;
     if (shouldPlay) {
-      this.omxPlayer.resume(0.999);
+      this.omxPlayer.setVolume(0.999);
     } else {
       this.omxPlayer.setVolume(0.001);
     }
