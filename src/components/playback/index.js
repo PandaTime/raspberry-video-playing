@@ -18,7 +18,7 @@ function init() {
     filePath: FILE_PATHS.VIDEO_FILE,
     autoRestart: true,
     name: 'Video Video',
-    layer: 5,
+    layer: 4,
     output: 'hdmi',
   });
   logger.info('Initialized Video:', video.id);
@@ -26,7 +26,7 @@ function init() {
   videoSound = omxController.openSoundFile({
     filePath: FILE_PATHS.VIDEO_SOUND_FILE,
     autoRestart: true,
-    layer: 2,
+    layer: 3,
     name: 'Video Sound',
     output: 'local',
   });
