@@ -71,7 +71,7 @@ class Player {
         return;
       }
       if (this.autoRestartStatePlayback) {
-        info.debug('startPlayer()', `${this.id}: Player reached its end time. restarting..`);
+        logger.debug('startPlayer()', `${this.id}: Player reached its end time. restarting..`);
         logger.debug('startPlayer()', `${this.id}: Current ${infoInSeconds.position}. End: ${this.endTime}.`);
         this._setPlayTime(this.startTime);
       }
