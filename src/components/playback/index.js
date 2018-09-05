@@ -55,6 +55,7 @@ function updateOmxPlayer() {
     //   start: currentStateConfig.VIDEO.VIDEO_START_TIME,
     //   end: currentStateConfig.VIDEO.VIDEO_END_TIME,
     // });
+    logger.info('UPDATING OMX PLAYER', JSON.stringify(currentStateConfig));
     videoSound.setPlayFrames({
       start: currentStateConfig.VIDEO.AUDIO_START_TIME,
       end: currentStateConfig.VIDEO.AUDIO_END_TIME,
@@ -89,7 +90,7 @@ function updateState(newState) {
   logger.info('Updating state to:', newState);
   currentState = newState;
 
-  // updateStatus(currentState === DEFAULT_STATE);
+  updateStatus(currentState === DEFAULT_STATE);
 
   updateOmxPlayer();
   if (stateConf.POWER_SOCKET) {
@@ -106,6 +107,12 @@ function updateState(newState) {
 function updateStatus(changeable) {
   logger.debug('Updating "isChangeable" status to :', changeable);
   isStatusChangeable = changeable;
+  if (!isStatusChangeable) {
+    setTimeout(() => {
+      isStatusChangeable = true;
+      logger.info('TRUEEEE');
+    }, 5000);
+  }
 }
 
 
