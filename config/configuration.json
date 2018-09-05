@@ -28,7 +28,7 @@
   "FILE_PATHS": {
     "VIDEO_FILE": "/home/pi/Videos/openness.mp4",
     "VIDEO_SOUND_FILE": "/home/pi/Videos/openness.mp3",
-    "SOUND_FILE": "/home/pi/Videos/voice.mp3"
+    "SOUND_FILE": "/home/pi/Videos/test-voice.mp3"
   },
   "STATES": {
     "DEFAULT": {
