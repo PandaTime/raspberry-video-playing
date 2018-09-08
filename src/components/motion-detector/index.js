@@ -29,7 +29,11 @@ function init() {
  * @param {Array<Object>} accelerometers - for more info see https://github.com/emersion/node-i2c-mpu6050
  */
 function onAccelerometerData(accelerometers) {
-  logger.debug('Data from accelerometer', JSON.stringify(accelerometers));
+  accelerometers.forEach((acc, i) => {
+    logger.debug(i, ' - GYRO:', JSON.stringify(acc.gyro));
+    logger.debug(i, ' - ACCEL:', JSON.stringify(acc.accel));
+    logger.debug(i, ' - ROTATION:', JSON.stringify(acc.rotation));
+  });
   if (!previousAccelerometerData) {
     logger.info('Initial start');
     previousAccelerometerData = accelerometers;
