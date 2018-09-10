@@ -115,12 +115,6 @@ function updateState(newState) {
 function updateStatus(changeable) {
   logger.debug('Updating "isChangeable" status to :', changeable);
   isStatusChangeable = changeable;
-  // if (!isStatusChangeable) {
-  //   setTimeout(() => {
-  //     isStatusChangeable = true;
-  //     logger.info('TRUEEEE');
-  //   }, 5000);
-  // }
 }
 
 
