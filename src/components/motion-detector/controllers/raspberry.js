@@ -11,6 +11,24 @@ const channelAccerometers = {};
 let callback;
 let i2c1;
 
+const DEFAULT_ACCELEROMETER_DATA = {
+  gyro: {
+    x: 0,
+    y: 0,
+    z: 0,
+  },
+  accel: {
+    x: 0,
+    y: 0,
+    z: 0,
+  },
+  rotation: {
+    x: 0,
+    y: 0,
+    z: 0,
+  },
+};
+
 /** */
 function init() {
   logger.info('Initializing');
@@ -18,8 +36,7 @@ function init() {
 
   setInterval(() => {
     const muxAccelerometersData = channels.map((channel) => {
-      logger.debug('Accelerometer #', channel);
-      return getAccelerometerData(1 << channel);
+      return getAccelerometerData(1 << channel, channel);
     });
     callback(muxAccelerometersData);
   }, 500);
@@ -34,21 +51,54 @@ function updateCb(cb) {
 }
 
 /**
- * @param {Number} channel - channel number, should be byte, e.g. 1 << 0 - 0 channel, 1 << n - n-th channel etc.
+ * @param {Number} portNumber - channel number.
+ * Will be converted to be byte, e.g. 1 << 0 - 0 channel, 1 << n - n-th channel etc.
  * @return {Object} see https://github.com/emersion/node-i2c-mpu6050
 */
-function getAccelerometerData(channel) {
-  logger.debug('getting accelerometer data for channel:', channel);
+function getAccelerometerData(portNumber) {
+  const channel = 1 << portNumber;
+  logger.debug(`getting accelerometer data for SD #${portNumber}; Channel: ${channel}`);
   // setting mux channel
   i2c1.writeByteSync(muxAddress, channel, channel);
   // reading MPU data
   if (!channelAccerometers[channel]) {
-    channelAccerometers[channel] = new MPU6050(i2c1, accelererometerAddress);
+    channelAccerometers[channel] = createAccelerometerConnection();
   }
-  return channelAccerometers[channel].readSync();
+  return readAccelerometersData(portNumber, channel);
 }
 
+/**
+ * creating connection with accelerometer(MPU6050)
+ * @param {Number} portNumber
+ * @return {MPU6050Connection}
+ */
+function createAccelerometerConnection(portNumber) {
+  logger.debug('createAccelerometerConnection()', portNumber);
+  let connection;
+  try {
+    connection = new MPU6050(i2c1, accelererometerAddress);
+  } catch (e) {
+    logger.error(`Wasnt able to connect to accelerometer on channel #${portNumber}`);
+  }
+  return connection;
+}
 
+/**
+ * @param {Number} portNumber
+ * @param {Number} channel
+ * @return {Object} see https://github.com/emersion/node-i2c-mpu6050
+ */
+function readAccelerometersData(portNumber, channel) {
+  logger.debug('readAccelerometersData()', portNumber, channel);
+  let accelData;
+  try {
+    accelData = channelAccerometers[channel].readSync();
+  } catch (e) {
+    logger.error(`Wasnt able to read data from SD #${portNumber}. Setting default values..`);
+    accelData = Object.assign({}, DEFAULT_ACCELEROMETER_DATA);
+  }
+  return accelData;
+}
 module.exports = {
   init,
   updateCb,
