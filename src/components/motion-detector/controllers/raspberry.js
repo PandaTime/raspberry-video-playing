@@ -18,6 +18,7 @@ function init() {
 
   setInterval(() => {
     const muxAccelerometersData = channels.map((channel) => {
+      logger.debug('Accelerometer #', channel);
       return getAccelerometerData(1 << channel);
     });
     callback(muxAccelerometersData);
